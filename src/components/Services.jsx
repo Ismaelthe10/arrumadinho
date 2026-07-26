@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react'
-import styles from './Servicos.module.css'
-
+import styles from './Services.module.css'
 
 const services = [
   {
@@ -49,12 +48,15 @@ export default function Servicos() {
         <div className={styles.grid}>
           {services.map((service) => (
             <div key={service.title} className={styles.card}>
-              <div className={styles.imageWrapper}>
-                <img src={service.image} alt={service.title} className={styles.image} />
+              <img src={service.image} alt={service.title} className={styles.image} />
+
+              <div className={styles.hoverOverlay}>
+                <p className={styles.overlayDescription}>{service.description}</p>
               </div>
-              <div className={styles.cardBody}>
+
+              <div className={styles.bottomBar}>
                 <h3 className={styles.cardTitle}>{service.title}</h3>
-                <p className={styles.cardDescription}>{service.description}</p>
+                <p className={styles.mobileDescription}>{service.description}</p>
               </div>
             </div>
           ))}
@@ -84,4 +86,3 @@ export default function Servicos() {
     </section>
   )
 }
-

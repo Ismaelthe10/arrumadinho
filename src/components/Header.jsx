@@ -14,8 +14,8 @@ const navLinks = [
 
 
 const socialLinks = [
-  { label: 'WhatsApp', href: 'https://wa.me/5500000000000', Icon: WhatsAppIcon },
-  { label: 'Instagram', href: 'https://instagram.com/seuinstagram', Icon: InstagramIcon },
+  { label: 'WhatsApp', href: 'https://wa.me/554198496829', Icon: WhatsAppIcon },
+  { label: 'Instagram', href: 'https://www.instagram.com/barbeariaarrumadinho/', Icon: InstagramIcon },
 ]
 
 export default function Header() {
