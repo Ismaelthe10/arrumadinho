@@ -3,6 +3,7 @@ import Home from './pages/Home.jsx'
 import Cursos from './pages/Cursos.jsx'
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx'
 import TermosDeUso from './pages/TermosDeUso.jsx'
+import './styles/theme.css'
 
 export default function App() {
   return (
@@ -14,3 +15,4 @@ export default function App() {
     </Routes>
   )
 }
+

@@ -5,6 +5,7 @@ import { ThemeProvider, BaseStyles } from '@primer/react'
 
 // Tema claro do Primer
 import '@primer/primitives/dist/css/functional/themes/light.css'
+import './styles/theme.css'
 
 import App from './App.jsx'
 
