@@ -1,0 +1,264 @@
+/* Hero — fundo claro */
+.heroContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 96px 24px 72px;
+  text-align: center;
+}
+
+.heroTitleLight {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-on-light);
+  margin: 0 0 16px;
+}
+
+@media (min-width: 768px) {
+  .heroTitleLight {
+    font-size: 2.8rem;
+  }
+}
+
+.heroSubtitleLight {
+  font-size: 1.1rem;
+  color: #6b6b6b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Containers genéricos */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.finalContainer {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-on-light);
+  margin: 0 0 16px;
+}
+
+.sectionTitleDark {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-on-dark);
+  margin: 0 0 48px;
+}
+
+@media (min-width: 768px) {
+  .sectionTitle,
+  .sectionTitleDark {
+    font-size: 2.5rem;
+  }
+}
+
+.sectionSubtitleDark {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 48px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(245, 247, 250, 0.7);
+}
+
+/* Features (Por que escolher) — agora em fundo ESCURO */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .featuresGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.featureCardDark {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureCardDark:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--brand-accent);
+  color: #0F1D3A;
+  margin-bottom: 4px;
+}
+
+.featureTitleDark {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-on-dark);
+  margin: 0;
+}
+
+.featureDescriptionDark {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(245, 247, 250, 0.7);
+  margin: 0;
+}
+
+/* Cursos — agora em fundo CLARO */
+.coursesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .coursesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.courseCardLight {
+  background: #ffffff;
+  border: 1px solid rgba(15, 29, 58, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.courseCardLight:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(15, 29, 58, 0.12);
+}
+
+.courseBody {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.courseTitleLight {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-on-light);
+  margin: 0;
+}
+
+.courseMeta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--brand-navy-dark);
+}
+
+.courseDescriptionLight {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #6b6b6b;
+  margin: 0;
+}
+
+.courseListBlock {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.courseListTitleLight {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-on-light);
+}
+
+.courseList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.courseListItemLight {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.88rem;
+  color: #4a4a4a;
+  line-height: 1.4;
+}
+
+.courseListItemLight svg {
+  flex-shrink: 0;
+  color: var(--brand-navy-dark);
+  margin-top: 2px;
+}
+
+.courseButton {
+  margin-top: 12px;
+  text-align: center;
+  background: var(--brand-navy-dark);
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.courseButton:hover {
+  background: var(--brand-navy-mid);
+}
+
+/* Informações Finais — agora em fundo ESCURO */
+.finalTextDark {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(245, 247, 250, 0.75);
+  margin: 0 0 8px;
+}
+
+.finalButtonDark {
+  display: inline-block;
+  margin-top: 24px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: var(--text-on-dark);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 8px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.finalButtonDark:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.6);
+}
