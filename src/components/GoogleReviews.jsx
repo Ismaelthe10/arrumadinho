@@ -66,7 +66,8 @@ function Stars() {
 
 export default function GoogleReviews() {
   return (
-    <section id="avaliacoes" className="section-light">
+    <section id="avaliacoes" className={`section-light ${styles.section}`}>
+       <div className={styles.pattern} />
       <div className={styles.container}>
         <h2 className={styles.title}>Onde Estamos & O Que Dizem de Nós</h2>
 

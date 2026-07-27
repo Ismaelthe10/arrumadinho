@@ -67,7 +67,8 @@ function buildWhatsAppLink(productTitle) {
 
 export default function Products() {
   return (
-    <section id="produtos" className="section-light">
+    <section id="produtos" className={`section-light ${styles.section}`}>
+      <div className={styles.pattern} />
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Nossos Produtos</h2>
@@ -101,6 +102,7 @@ export default function Products() {
 ))}
         </div>
       </div>
+     
     </section>
   )
 }

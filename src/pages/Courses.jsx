@@ -1,4 +1,5 @@
-import { CheckCircleFillIcon, ZapIcon, PeopleIcon, MortarBoardIcon } from '@primer/octicons-react'
+import { CheckCircleFillIcon, ZapIcon, PeopleIcon, MortarBoardIcon, CreditCardIcon } from '@primer/octicons-react'
+
 import styles from './Cursos.module.css'
 
 const WHATSAPP_NUMBER = '554198496829'
@@ -65,70 +66,77 @@ const courses = [
   },
 ]
 
-export default function Cursos() {
+export default function Courses() {
   return (
     <>
-      {/* Topo — LIGHT */}
-      <section className="section-light">
-        <div className={styles.heroContainer}>
-          <h1 className={styles.heroTitleLight}>Cursos Profissionais de Barbeiro</h1>
-          <p className={styles.heroSubtitleLight}>
+      {/* Hero com curso-2 de fundo */}
+      <section className={styles.hero}>
+        <img src="/courses/curso-2.jpg" alt="" aria-hidden="true" className={styles.heroImage} />
+        <div className={styles.heroOverlay} />
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>Cursos Profissionais de Barbeiro</h1>
+          <p className={styles.heroSubtitle}>
             Formação prática e atualizada para quem deseja evoluir ou iniciar na
             profissão com excelência.
           </p>
         </div>
       </section>
+      {/* Por que escolher — título primeiro, ilustração atrás dos cards */}
+      <section className="section-light">
+        <div className={styles.whyContainer}>
+          <img src="/courses/curso-5.png" alt="" aria-hidden="true" className={styles.whyIllustration} />
 
-      {/* Por que escolher — DARK */}
-      <section className="section-dark">
-        <div className={styles.container}>
-          <h2 className={styles.sectionTitleDark}>Por que escolher nossos cursos?</h2>
-          <p className={styles.sectionSubtitleDark}>
-            Oferecemos formação de qualidade com instrutores experientes,
-            metodologia prática comprovada e ambiente profissional que prepara
-            você para o mercado.
-          </p>
+          <div className={styles.whyText}>
+            <h2 className={styles.sectionTitle}>Por que escolher nossos cursos?</h2>
+            <p className={styles.sectionSubtitle}>
+              Oferecemos formação de qualidade com instrutores experientes,
+              metodologia prática comprovada e ambiente profissional que prepara
+              você para o mercado.
+            </p>
+          </div>
 
           <div className={styles.featuresGrid}>
             {features.map((feature) => (
-              <div key={feature.title} className={styles.featureCardDark}>
+              <div key={feature.title} className={styles.featureCard}>
                 <div className={styles.featureIcon}>
                   <feature.icon size={22} />
                 </div>
-                <h3 className={styles.featureTitleDark}>{feature.title}</h3>
-                <p className={styles.featureDescriptionDark}>{feature.description}</p>
+                <h3 className={styles.featureTitle}>{feature.title}</h3>
+                <p className={styles.featureDescription}>{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </section>      
+    
+      {/* Nossos Cursos */}
+      <section className={styles.coursesSection}>
+        <img src="/courses/curso-6.jpg" alt="" aria-hidden="true" className={styles.coursesSectionImage} />
+        <div className={styles.coursesSectionOverlay} />
 
-      {/* Nossos Cursos — LIGHT */}
-      <section className="section-light">
         <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>Nossos Cursos</h2>
+          <h2 className={styles.sectionTitleDark}>Nossos Cursos</h2>
 
           <div className={styles.coursesGrid}>
             {courses.map((course) => (
-              <div key={course.title} className={styles.courseCardLight}>
+              <div key={course.title} className={styles.courseCardGlass}>
                 <div className={styles.courseBody}>
-                  <h3 className={styles.courseTitleLight}>{course.title}</h3>
+                  <h3 className={styles.courseTitleDark}>{course.title}</h3>
                   <span className={styles.courseMeta}>{course.meta}</span>
-                  <p className={styles.courseDescriptionLight}>{course.description}</p>
+                  <p className={styles.courseDescriptionDark}>{course.description}</p>
 
                   <div className={styles.courseListBlock}>
-                    <span className={styles.courseListTitleLight}>{course.listTitle}</span>
+                    <span className={styles.courseListTitleDark}>{course.listTitle}</span>
                     <ul className={styles.courseList}>
                       {course.items.map((item) => (
-                        <li key={item} className={styles.courseListItemLight}>
+                        <li key={item} className={styles.courseListItemDark}>
                           <CheckCircleFillIcon size={14} />
                           <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
-         </div>
-                <div className={styles.courseFooter}>
+
                   <a
                     href={buildWhatsAppLink(course.title)}
                     target="_blank"
@@ -144,22 +152,33 @@ export default function Cursos() {
         </div>
       </section>
 
-      {/* Informações Finais — DARK */}
-      <section className="section-dark">
+      {/* Informações Finais */}
+
+      <section className={styles.finalSection}>
+        <div className={styles.finalPattern} />
         <div className={styles.finalContainer}>
-          <h2 className={styles.sectionTitleDark}>Informações Finais</h2>
-          <p className={styles.finalTextDark}>Parcelamento em até 3x sem juros.</p>
-          <p className={styles.finalTextDark}>
-            Para mais informações ou garantir sua vaga, fale conosco.
-          </p>
-          <a
-            href={buildWhatsAppLink('Cursos Profissionais de Barbeiro')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.finalButtonDark}
-          >
-            Falar Conosco
-          </a>
+          <div className={styles.finalCard}>
+            <div className={styles.finalIcon}>
+              <CreditCardIcon size={24} />
+            </div>
+
+            <h2 className={styles.sectionTitle}>Informações Finais</h2>
+
+            <span className={styles.finalBadge}>Parcelamento em até 3x sem juros</span>
+
+            <p className={styles.finalText}>
+              Para mais informações ou garantir sua vaga, fale conosco.
+            </p>
+
+            <a
+              href={buildWhatsAppLink('Cursos Profissionais de Barbeiro')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.finalButton}
+            >
+              Falar Conosco
+            </a>
+          </div>
         </div>
       </section>
     </>

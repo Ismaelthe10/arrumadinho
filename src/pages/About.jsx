@@ -33,7 +33,7 @@ export default function About() {
             <p>
               Entre 2017 e 2018, Dirceu esteve à frente da barbearia,
               construindo as bases do negócio. Em 25 de outubro de 2018, um
-              novo capítulo começou: Allan Tortato ingressou na barbearia como
+              novo capítulo começou: <strong>Allan Tortato</strong> ingressou na barbearia como
               funcionário, iniciando uma parceria construída com trabalho,
               confiança e dedicação diária.
             </p>
@@ -42,12 +42,12 @@ export default function About() {
               crescimento, aprendizado e renovação, contando com diversos
               profissionais que contribuíram para sua história. Em abril de
               2022, Dirceu tomou a decisão de se mudar para os Estados Unidos,
-              deixando a barbearia sob a gerência de Allan Tortato, que
+              deixando a barbearia sob a gerência de <strong>Allan Tortato</strong> que
               assumiu a responsabilidade de conduzir o negócio.
             </p>
             <p>
               Já em maio de 2024, após anos de vivência, compromisso e amor
-              pela profissão, Allan Tortato assume oficialmente a Barbearia
+              pela profissão, <strong>Allan Tortato</strong> assume oficialmente a Barbearia
               Arrumadinho como proprietário.
             </p>
             <p>

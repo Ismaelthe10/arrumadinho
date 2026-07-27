@@ -1,47 +1,95 @@
-/* Hero — fundo claro */
-.heroContainer {
-  max-width: 800px;
+.hero {
+  position: relative;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 480px;
+  }
+}
+.heroImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% 15%;
+  z-index: 0;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(15, 29, 58, 0.75), rgba(15, 29, 58, 0.6));
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
   margin: 0 auto;
-  padding: 96px 24px 72px;
+  padding: 24px;
   text-align: center;
 }
 
-.heroTitleLight {
+.heroTitle {
   font-size: 2.2rem;
   font-weight: 700;
-  color: var(--text-on-light);
+  color: #ffffff;
   margin: 0 0 16px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 @media (min-width: 768px) {
-  .heroTitleLight {
+  .heroTitle {
     font-size: 2.8rem;
   }
 }
 
-.heroSubtitleLight {
+.heroSubtitle {
   font-size: 1.1rem;
-  color: #6b6b6b;
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
   line-height: 1.6;
 }
 
-/* Containers genéricos */
-.container {
+.whyContainer {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 80px 24px;
+  overflow: hidden;
 }
 
-.finalContainer {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 80px 24px;
+.whyIllustration {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 750px;
+  max-width: 100%;
+  mix-blend-mode: multiply;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.whyText {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto 48px;
   text-align: center;
 }
+
 
 .sectionTitle {
-  text-align: center;
   font-size: 2rem;
   font-weight: 700;
   color: var(--text-on-light);
@@ -63,17 +111,16 @@
   }
 }
 
-.sectionSubtitleDark {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 48px;
+.sectionSubtitle {
   font-size: 1.05rem;
   line-height: 1.6;
-  color: rgba(245, 247, 250, 0.7);
+  color: #6b6b6b;
+  margin: 0;
 }
 
-/* Features (Por que escolher) — agora em fundo ESCURO */
 .featuresGrid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
@@ -85,52 +132,139 @@
   }
 }
 
-.featureCardDark {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.featureCard {
+  background: transparent;
+  border: 1px solid rgba(15, 29, 58, 0.12);
   border-radius: 14px;
-  padding: 32px 24px;
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-6px);
+  border-color: rgba(15, 29, 58, 0.25);
+}
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--brand-navy-dark);
+  color: white;
+}
+
+.featureTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-on-light);
+  margin: 0;
+}
+
+.featureDescription {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #6b6b6b;
+  margin: 0;
+}
+
+/* Containers genéricos */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.finalContainer {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 56px 24px;
+}
+
+.finalCard {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(15, 29, 58, 0.12);
+  border-radius: 16px;
+  padding: 36px 28px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 12px 30px rgba(15, 29, 58, 0.06);
 }
-
-.featureCardDark:hover {
-  transform: translateY(-6px);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-}
-
-.featureIcon {
+.finalIcon {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: var(--brand-accent);
-  color: #0F1D3A;
+  background: var(--brand-navy-dark);
+  color: white;
   margin-bottom: 4px;
 }
 
-.featureTitleDark {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-on-dark);
-  margin: 0;
-}
-
-.featureDescriptionDark {
+.finalBadge {
+  display: inline-block;
+  background: rgba(15, 29, 58, 0.06);
+  color: var(--brand-navy-dark);
   font-size: 0.9rem;
-  line-height: 1.5;
-  color: rgba(245, 247, 250, 0.7);
-  margin: 0;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 999px;
+}
+.finalText {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #6b6b6b;
+  margin: 4px 0 0;
 }
 
-/* Cursos — agora em fundo CLARO */
+.finalButton {
+  margin-top: 12px;
+  display: inline-block;
+  background: transparent;
+  color: var(--brand-navy-dark);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(15, 29, 58, 0.3);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.finalButton:hover {
+  background: rgba(15, 29, 58, 0.06);
+  border-color: rgba(15, 29, 58, 0.5);
+}
+
+.finalSection {
+  position: relative;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.finalPattern {
+  position: absolute;
+  inset: 0;
+  background-image: url('/logo-dark.svg');
+  background-repeat: repeat;
+  background-size: 90px 90px;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Nossos Cursos — com imagem de fundo */
 .coursesGrid {
   display: grid;
   grid-template-columns: 1fr;
@@ -143,17 +277,47 @@
   }
 }
 
-.courseCardLight {
-  background: #ffffff;
-  border: 1px solid rgba(15, 29, 58, 0.08);
-  border-radius: 14px;
+.coursesSection {
+  position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.courseCardLight:hover {
+.coursesSectionImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.coursesSectionOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(15, 29, 58, 0.88), rgba(15, 29, 58, 0.82));
+  z-index: 1;
+}
+
+.coursesSection .container {
+  position: relative;
+  z-index: 2;
+}
+
+.courseCardGlass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.courseCardGlass:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(15, 29, 58, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .courseBody {
@@ -163,23 +327,23 @@
   gap: 12px;
 }
 
-.courseTitleLight {
+.courseTitleDark {
   font-size: 1.2rem;
   font-weight: 600;
-  color: var(--text-on-light);
+  color: var(--text-on-dark);
   margin: 0;
 }
 
 .courseMeta {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--brand-navy-dark);
+  color: var(--brand-accent);
 }
 
-.courseDescriptionLight {
+.courseDescriptionDark {
   font-size: 0.92rem;
   line-height: 1.55;
-  color: #6b6b6b;
+  color: rgba(245, 247, 250, 0.75);
   margin: 0;
 }
 
@@ -190,10 +354,10 @@
   gap: 10px;
 }
 
-.courseListTitleLight {
+.courseListTitleDark {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-on-light);
+  color: var(--text-on-dark);
 }
 
 .courseList {
@@ -205,60 +369,36 @@
   gap: 8px;
 }
 
-.courseListItemLight {
+.courseListItemDark {
   display: flex;
   align-items: flex-start;
   gap: 8px;
   font-size: 0.88rem;
-  color: #4a4a4a;
+  color: rgba(245, 247, 250, 0.85);
   line-height: 1.4;
 }
 
-.courseListItemLight svg {
+.courseListItemDark svg {
   flex-shrink: 0;
-  color: var(--brand-navy-dark);
+  color: var(--brand-accent);
   margin-top: 2px;
 }
 
 .courseButton {
   margin-top: 12px;
   text-align: center;
-  background: var(--brand-navy-dark);
-  color: white;
+  background: transparent;
+  color: #ffffff;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 600;
   padding: 12px 20px;
   border-radius: 8px;
-  transition: background 0.2s ease;
-}
-
-.courseButton:hover {
-  background: var(--brand-navy-mid);
-}
-
-/* Informações Finais — agora em fundo ESCURO */
-.finalTextDark {
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: rgba(245, 247, 250, 0.75);
-  margin: 0 0 8px;
-}
-
-.finalButtonDark {
-  display: inline-block;
-  margin-top: 24px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: var(--text-on-dark);
-  text-decoration: none;
-  font-weight: 600;
-  padding: 14px 32px;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.finalButtonDark:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.6);
+.courseButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.8);
 }
