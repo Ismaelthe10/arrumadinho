@@ -71,7 +71,7 @@ export default function Courses() {
     <>
       {/* Hero com curso-2 de fundo */}
       <section className={styles.hero}>
-        <img src="/courses/curso-2.jpg" alt="" aria-hidden="true" className={styles.heroImage} />
+        <img src="/courses/curso-02.jpg" alt="" aria-hidden="true" className={styles.heroImage} />
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>Cursos Profissionais de Barbeiro</h1>
