@@ -1,0 +1,194 @@
+.container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 24px 32px;
+  overflow: hidden;
+}
+
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  max-width: 90%;
+  opacity: 0.05;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.columnTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-on-dark);
+  margin: 0 0 4px;
+}
+
+/* Navegação */
+.linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link {
+  font-size: 0.9rem;
+  color: rgba(245, 247, 250, 0.75);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #ffffff;
+}
+
+.social {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--text-on-dark);
+  transition: opacity 0.2s ease;
+}
+
+.socialIcon svg {
+  display: block;
+}
+
+.socialIcon[aria-label="Instagram"] svg {
+  transform: scale(1);
+}
+
+.socialIcon[aria-label="WhatsApp"] svg {
+  transform: scale(1.2);
+}
+
+.socialIcon:hover {
+  opacity: 0.7;
+}
+
+/* Contato */
+.contactItem,
+.contactLink {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: rgba(245, 247, 250, 0.75);
+  text-decoration: none;
+}
+
+.contactLink:hover {
+  color: #ffffff;
+}
+
+.contactItem svg,
+.contactLink svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.hoursList {
+  list-style: none;
+  margin: 0;
+  padding: 0 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.hoursItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 0.85rem;
+  color: rgba(245, 247, 250, 0.75);
+}
+
+.hoursItem span:last-child {
+  text-align: right;
+}
+
+.closed {
+  color: rgba(245, 247, 250, 0.45);
+}
+
+/* Rodapé final */
+.bottomBar {
+  position: relative;
+  z-index: 1;
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  color: rgba(245, 247, 250, 0.5);
+  margin: 0;
+}
+
+.legalLinks {
+  display: flex;
+  gap: 20px;
+}
+
+.legalLink {
+  font-size: 0.8rem;
+  color: rgba(245, 247, 250, 0.6);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.legalLink:hover {
+  color: #ffffff;
+}

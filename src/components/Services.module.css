@@ -1,0 +1,214 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-on-dark);
+  margin: 0 0 12px;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: rgba(245, 247, 250, 0.7);
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card estilo Produtos: imagem preenche tudo, título fixo, descrição no hover */
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.4s ease;
+  z-index: 1;
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.hoverOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 29, 58, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.overlayDescription {
+  color: #ffffff;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.bottomBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  padding: 16px 14px 14px;
+  background: linear-gradient(to top, rgba(15, 29, 58, 0.9), transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.3;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.mobileDescription {
+  display: none;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+@media (hover: hover) {
+  .card:hover .hoverOverlay {
+    opacity: 1;
+  }
+}
+
+@media not all and (hover: hover) {
+  .hoverOverlay {
+    display: none;
+  }
+
+  .mobileDescription {
+    display: block;
+  }
+
+  .bottomBar {
+    background: linear-gradient(to top, rgba(15, 29, 58, 0.92), rgba(15, 29, 58, 0.75) 60%, transparent);
+  }
+}
+
+/* Botão "Mais serviços" (inalterado) */
+.moreWrapper {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.moreButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--text-on-dark);
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.moreButton:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.extraList {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.4s ease;
+}
+
+.extraListOpen {
+  max-height: 500px;
+  opacity: 1;
+  margin-top: 32px;
+}
+
+.extraGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px 32px;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .extraGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .extraGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.extraItem {
+  color: rgba(245, 247, 250, 0.85);
+  font-size: 0.98rem;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}

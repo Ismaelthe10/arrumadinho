@@ -1,0 +1,149 @@
+.header {
+  position: relative;
+  z-index: 50;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Barra principal em grid: logo | nav | social — permite nav 100% centralizada */
+.bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 24px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+}
+
+/* LOGO */
+.logo {
+  display: flex;
+  align-items: center;
+  margin-top: -15px;
+  margin-bottom: -15px;
+}
+
+.logoImg {
+  height: 86px;
+  width: auto;
+}
+
+/* NAV — centralizada, some no mobile */
+.nav {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLink {
+  color: var(--text-on-dark);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+.navLink:hover {
+  opacity: 0.7;
+}
+
+/* SOCIAL — mesmo tamanho, alinhado à direita, some no mobile */
+.social {
+  display: none;
+  align-items: center;
+  gap: 18px;
+  justify-self: end;
+}
+
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--text-on-dark);
+  transition: opacity 0.2s ease;
+}
+
+.socialIcon svg {
+  display: block;
+}
+
+.socialIcon:hover {
+  opacity: 0.7;
+}
+
+.socialIcon[aria-label="Instagram"] svg {
+  transform: scale(1);
+}
+
+.socialIcon[aria-label="WhatsApp"] svg {
+  transform: scale(1.2);
+}
+
+/* HAMBÚRGUER — só aparece no mobile */
+.menuButton {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-on-dark);
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Acima de 768px: mostra nav + social, esconde hambúrguer */
+@media (min-width: 768px) {
+  .nav,
+  .social {
+    display: flex;
+  }
+
+  .menuButton {
+    display: none;
+  }
+}
+
+/* MENU MOBILE */
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background: var(--brand-navy-mid);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideDown 0.25s ease-out;
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-on-dark);
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.mobileSocial {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

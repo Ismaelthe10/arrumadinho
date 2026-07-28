@@ -1,0 +1,35 @@
+:root {
+  /* Paleta de marca - tons de azul marinho */
+  --brand-navy-dark: #0F1D3A;
+  --brand-navy-mid: #102449;
+  --brand-navy-light: #0E1F3C;
+
+  /* Gradiente principal (usado no Header, Footer e seções "dark") */
+  --gradient-navy: linear-gradient(
+    to bottom,
+    var(--brand-navy-dark),
+    var(--brand-navy-mid),
+    var(--brand-navy-light)
+  );
+
+  /* Fundo claro (seções alternadas) */
+  --bg-light: #FFFFFF;
+
+  /* Texto */
+  --text-on-dark: #F5F7FA;
+  --text-on-light: #0F1D3A;
+
+  /* Cor de destaque (CTAs, links, hover) — provisória, me diga se quer outra */
+  --brand-accent: #4C8DFF;
+}
+
+/* Classes reutilizáveis para alternar seções */
+.section-dark {
+  background: var(--gradient-navy);
+  color: var(--text-on-dark);
+}
+
+.section-light {
+  background: var(--bg-light);
+  color: var(--text-on-light);
+}

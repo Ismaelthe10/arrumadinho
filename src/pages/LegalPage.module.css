@@ -1,0 +1,46 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px 24px 96px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-on-dark);
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+.updated {
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(245, 247, 250, 0.5);
+  margin: 0 0 48px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.content h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-on-dark);
+  margin: 32px 0 12px;
+}
+
+.content p {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: rgba(245, 247, 250, 0.8);
+  margin: 0 0 8px;
+}
