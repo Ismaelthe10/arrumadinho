@@ -1,124 +1,27 @@
-.container {
-  padding: 24px;
-}
+.container { composes: container from './adminShared.module.css'; }
+.title { composes: title from './adminShared.module.css'; }
+.block { composes: block from './adminShared.module.css'; }
+.blockTitle { composes: blockTitle from './adminShared.module.css'; }
+.errorBox { composes: errorBox from './adminShared.module.css'; }
+.successBox { composes: successBox from './adminShared.module.css'; }
+.list { composes: list from './adminShared.module.css'; }
+.item { composes: item from './adminShared.module.css'; }
+.itemTop { composes: itemTop from './adminShared.module.css'; }
+.itemFooter { composes: itemFooter from './adminShared.module.css'; }
+.itemFields { composes: itemFields from './adminShared.module.css'; }
+.label { composes: label from './adminShared.module.css'; }
+.input { composes: input from './adminShared.module.css'; }
+.textarea { composes: textarea from './adminShared.module.css'; }
+.preview { composes: preview from './adminShared.module.css'; }
+.itemActions { composes: itemActions from './adminShared.module.css'; }
+.iconButton { composes: iconButton from './adminShared.module.css'; }
+.iconButtonDanger { composes: iconButtonDanger from './adminShared.module.css'; }
+.addButton { composes: addButton from './adminShared.module.css'; }
+.saveBar { composes: saveBar from './adminShared.module.css'; }
+.saveButton { composes: saveButton from './adminShared.module.css'; }
+.saveButtonSmall { composes: saveButtonSmall from './adminShared.module.css'; }
 
-.title {
-  font-size: 1.5rem;
-  margin-bottom: 16px;
-}
-
-.block {
-  margin-bottom: 32px;
-}
-
-.blockTitle {
-  font-size: 1.1rem;
-  margin-bottom: 12px;
-}
-
-.errorBox {
-  background: #FDECEC;
-  color: #B42318;
-  padding: 10px 14px;
-  border-radius: 6px;
-  margin-bottom: 12px;
-}
-
-.successBox {
-  background: #E6F4EA;
-  color: #1E7E34;
-  padding: 10px 14px;
-  border-radius: 6px;
-  margin-bottom: 12px;
-}
-
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.item {
-  border: 1px solid #E0E0E0;
-  border-radius: 8px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.itemTop {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-.itemFooter {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  border-top: 1px solid #F0F0F0;
-  padding-top: 12px;
-}
-
-.itemFields {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-  min-width: 220px;
-}
-
-.label {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.85rem;
-  gap: 4px;
-}
-
-.input,
-.textarea {
-  padding: 8px 10px;
-  border: 1px solid #CCC;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-family: inherit;
-}
-
-.preview {
-  width: 100px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 6px;
-  background: #F0F0F0;
-}
-
-.itemActions {
-  display: flex;
-  gap: 6px;
-}
-
-.iconButton,
-.iconButtonDanger {
-  border: 1px solid #CCC;
-  background: white;
-  border-radius: 6px;
-  padding: 6px;
-  cursor: pointer;
-}
-
-.iconButton:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.iconButtonDanger {
-  color: #B42318;
-  border-color: #F0B4B4;
-}
-
+/* Específico de "Outros serviços" (lista simples) */
 .extraList {
   display: flex;
   flex-direction: column;
@@ -134,53 +37,4 @@
 
 .extraItem .input {
   flex: 1;
-}
-
-.addButton {
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--brand-accent);
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.saveBar {
-  margin-top: 24px;
-  border-top: 1px solid #E0E0E0;
-  padding-top: 16px;
-}
-
-.saveButton {
-  background: var(--brand-navy-dark);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.saveButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.saveButtonSmall {
-  background: var(--brand-accent);
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-
-.saveButtonSmall:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
