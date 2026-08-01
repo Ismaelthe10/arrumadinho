@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../infra/firebase.js'
 import { useAuth } from '../../context/AuthContext.jsx'
-import { AUTHORIZED_EMAILS } from '../../config/authorizedUsers.js'
+import { AUTHORIZED_UIDS } from '../../config/authorizedUsers.js'
 
 export default function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -19,7 +19,7 @@ export default function ProtectedRoute({ children }) {
     return <Navigate to="/admin/login" replace />
   }
 
-  const isAuthorized = AUTHORIZED_EMAILS.includes(user.email)
+  const isAuthorized = AUTHORIZED_UIDS.includes(user.uid)
 
   if (!isAuthorized) {
     return (

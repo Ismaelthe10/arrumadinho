@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useCloudinaryUpload } from "../hooks/useCloudinaryUpload";
 import styles from "./ImageUploadField.module.css";
 
@@ -21,6 +22,12 @@ export default function ImageUploadField({
   className = "",
 }) {
   const { upload, uploading, error, reset } = useCloudinaryUpload({ tag });
+  const [imgBroken, setImgBroken] = useState(false);
+
+  function handleUrlChange(e) {
+    setImgBroken(false);
+    onChange(e.target.value);
+  }
 
   async function handleFileChange(e) {
     const file = e.target.files?.[0];
@@ -29,6 +36,7 @@ export default function ImageUploadField({
 
     try {
       const url = await upload(file);
+      setImgBroken(false);
       onChange(url);
     } catch {
       // erro já fica disponível em `error` pra exibição; nada a fazer aqui
@@ -43,7 +51,7 @@ export default function ImageUploadField({
         <input
           type="text"
           value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={handleUrlChange}
           placeholder="URL da imagem"
           className={styles.input}
         />
@@ -60,8 +68,17 @@ export default function ImageUploadField({
         </label>
       </div>
 
-      {value && (
-        <img src={value} alt="Pré-visualização" className={styles.preview} />
+      {value && !imgBroken && (
+        <img
+          src={value}
+          alt="Pré-visualização"
+          className={styles.preview}
+          onError={() => setImgBroken(true)}
+        />
+      )}
+
+      {value && imgBroken && (
+        <div className={styles.previewBroken}>Imagem não encontrada</div>
       )}
 
       {error && (

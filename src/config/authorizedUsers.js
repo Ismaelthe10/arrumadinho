@@ -1,5 +1,4 @@
-// Emails que têm permissão de acessar o /admin
-
-export const AUTHORIZED_EMAILS = [
-  'trulysmael@gmail.com'
+export const AUTHORIZED_UIDS = [
+  'IOvMJnONJWRyP5i7Jy8THIgcJJ23',
 ]
+ 

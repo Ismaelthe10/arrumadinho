@@ -10,6 +10,7 @@ export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {
   const [savingId, setSavingId] = useState(null)
   const [error, setError] = useState(null)
   const [successMsg, setSuccessMsg] = useState(null)
+  const [dirty, setDirty] = useState(false)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -17,6 +18,7 @@ export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {
       const q = query(collection(db, collectionName), orderBy('order'))
       const snap = await getDocs(q)
       setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
+      setDirty(false)
     } catch (err) {
       setError('Erro ao carregar: ' + err.message)
     } finally {
@@ -26,8 +28,20 @@ export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {
 
   useEffect(() => { load() }, [load])
 
+  // Avisa o usuário se tentar fechar/recarregar a aba com alterações não salvas
+  useEffect(() => {
+    if (!dirty) return
+    function handleBeforeUnload(e) {
+      e.preventDefault()
+      e.returnValue = ''
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [dirty])
+
   function updateField(index, field, value) {
     setItems((prev) => prev.map((it, i) => (i === index ? { ...it, [field]: value } : it)))
+    setDirty(true)
   }
 
   function add() {
@@ -37,6 +51,7 @@ export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {
     }
     setError(null)
     setItems((prev) => [...prev, { id: `new-${crypto.randomUUID()}`, ...makeEmptyItem(prev.length) }])
+    setDirty(true)
   }
 
   async function saveOne(index, validate) {
@@ -51,7 +66,7 @@ export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {
       const ref = id.startsWith('new-') ? doc(collection(db, collectionName)) : doc(db, collectionName, id)
       await setDoc(ref, data)
       setSuccessMsg('Salvo com sucesso!')
-      await load()
+      await load() // já reseta dirty pra false
     } catch (err) {
       setError('Erro ao salvar: ' + err.message)
     } finally {
@@ -103,5 +118,5 @@ export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {
     }
   }
 
-  return { items, loading, savingId, error, successMsg, add, updateField, saveOne, remove, move }
+  return { items, loading, savingId, error, successMsg, dirty, add, updateField, saveOne, remove, move }
 }
