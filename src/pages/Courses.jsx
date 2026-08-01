@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { CheckCircleFillIcon, ZapIcon, PeopleIcon, MortarBoardIcon, CreditCardIcon } from '@primer/octicons-react'
-
+import { collection, getDocs, query, orderBy } from 'firebase/firestore'
+import { db } from '../infra/firebase'
 import styles from './Cursos.module.css'
 
 const WHATSAPP_NUMBER = '554198496829'
@@ -9,6 +11,7 @@ function buildWhatsAppLink(courseTitle) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }
 
+// Conteúdo estático (institucional) — combinado que fica hardcoded por enquanto
 const features = [
   {
     icon: ZapIcon,
@@ -27,46 +30,32 @@ const features = [
   },
 ]
 
-const courses = [
-  {
-    title: 'Curso de Aperfeiçoamento Prático',
-    meta: 'Duração: 1 Dia • 8 Horas',
-    description:
-      'Indicado para barbeiros que desejam aprimorar técnicas e atualizar seus conhecimentos com foco total na prática profissional.',
-    listTitle: 'O que você aprenderá',
-    items: [
-      'Duração: 1 dia (8 horas)',
-      'Técnicas de tesoura e degradê',
-      'Barba e colorimetria',
-    ],
-  },
-  {
-    title: 'Curso Extensivo para Barbeiros',
-    meta: 'Duração: 17 Dias • 40 Horas',
-    description:
-      'Formação completa para profissionais já atuantes que buscam elevar o nível técnico, produtividade e padrão de atendimento.',
-    listTitle: 'Informações do curso',
-    items: [
-      'Duração aproximada: 17 dias (40 horas)',
-      'Segunda a quinta-feira',
-      'Horário: 8h30 às 22h30',
-    ],
-  },
-  {
-    title: 'Curso para Iniciantes',
-    meta: 'Modalidade: Completo',
-    description:
-      'Ideal para quem deseja ingressar na profissão e aprender do zero, com acompanhamento prático e metodologia estruturada.',
-    listTitle: 'Informações do curso',
-    items: [
-      'Do iniciante ao nível profissional',
-      'Segunda a quinta-feira',
-      'Horário: 8h30 às 22h30',
-    ],
-  },
-]
-
 export default function Courses() {
+  const [courses, setCourses] = useState([])
+
+  useEffect(() => {
+    let mounted = true
+
+    async function loadCourses() {
+      try {
+        const q = query(collection(db, 'courses'), orderBy('order'))
+        const snap = await getDocs(q)
+
+        if (!mounted) return
+
+        setCourses(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
+      } catch (err) {
+        console.error('Erro ao carregar cursos:', err)
+      }
+    }
+
+    loadCourses()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
   return (
     <>
       {/* Hero com curso-2 de fundo */}
@@ -119,7 +108,7 @@ export default function Courses() {
 
           <div className={styles.coursesGrid}>
             {courses.map((course) => (
-              <div key={course.title} className={styles.courseCardGlass}>
+              <div key={course.id} className={styles.courseCardGlass}>
                 <div className={styles.courseBody}>
                   <h3 className={styles.courseTitleDark}>{course.title}</h3>
                   <span className={styles.courseMeta}>{course.meta}</span>
@@ -128,8 +117,8 @@ export default function Courses() {
                   <div className={styles.courseListBlock}>
                     <span className={styles.courseListTitleDark}>{course.listTitle}</span>
                     <ul className={styles.courseList}>
-                      {course.items.map((item) => (
-                        <li key={item} className={styles.courseListItemDark}>
+                      {course.items?.map((item, itemIndex) => (
+                        <li key={itemIndex} className={styles.courseListItemDark}>
                           <CheckCircleFillIcon size={14} />
                           <span>{item}</span>
                         </li>

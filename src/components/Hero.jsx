@@ -1,27 +1,37 @@
 import { useEffect, useState } from 'react'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../infra/firebase'
 import styles from './Hero.module.css'
 
-const WHATSAPP_LINK = 'https://wa.me/554198496829' 
-
-
-const heroImages = [
- 
-  { src: '/hero/foto-2.jpg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-5.jpg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-6.jpg',alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-7.jpg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-8.jpg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-9.jpg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-10.jpg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-11.jpg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-12.jpeg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-13.jpg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-14.jpg', alt: 'ambiente barbearia arrumadinho' },
-  { src: '/hero/foto-15.webp', alt: 'ambiente barbearia arrumadinho' },
-]
+const WHATSAPP_LINK = 'https://wa.me/554198496829'
 
 export default function Hero() {
+  const [heroImages, setHeroImages] = useState([])
   const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    let mounted = true
+
+    async function loadImages() {
+      try {
+        const ref = doc(db, 'hero', 'carousel')
+        const snap = await getDoc(ref)
+
+        if (!mounted) return
+
+        const data = snap.exists() ? snap.data() : null
+        setHeroImages(Array.isArray(data?.images) ? data.images : [])
+      } catch (err) {
+        console.error('Erro ao carregar imagens do Hero:', err)
+      }
+    }
+
+    loadImages()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     if (heroImages.length <= 1) return
@@ -29,7 +39,7 @@ export default function Hero() {
       setCurrent((prev) => (prev + 1) % heroImages.length)
     }, 4000)
     return () => clearInterval(interval)
-  }, [])
+  }, [heroImages])
 
   return (
     <section id="inicio" className="section-light">

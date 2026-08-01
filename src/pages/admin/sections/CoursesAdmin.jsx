@@ -57,7 +57,7 @@ export default function CoursesAdmin() {
                 </label>
 
                 <label className={styles.label}>
-                  Meta (ex: "Duração: 1 Dia • 8 Horas")
+                  Meta (ex: "Qual o objetivo? Quem é o público-alvo?")
                   <input type="text" value={course.meta} onChange={(e) => updateField(index, 'meta', e.target.value)} className={styles.input} />
                 </label>
 
@@ -67,7 +67,7 @@ export default function CoursesAdmin() {
                 </label>
 
                 <label className={styles.label}>
-                  Título da lista (ex: "O que você aprenderá")
+                  Título da lista (ex: "Informações do curso")
                   <input type="text" value={course.listTitle} onChange={(e) => updateField(index, 'listTitle', e.target.value)} className={styles.input} />
                 </label>
 

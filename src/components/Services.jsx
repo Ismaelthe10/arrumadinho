@@ -1,39 +1,42 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react'
+import { collection, getDocs, query, orderBy, doc, getDoc } from 'firebase/firestore'
+import { db } from '../infra/firebase'
 import styles from './Services.module.css'
 
-const services = [
-  {
-    title: 'Corte de Cabelo',
-    description: 'Corte clássico ou moderno, feito com precisão para valorizar seu estilo.',
-    image: '/services/foto-16.webp',
-  },
-  {
-    title: 'Barba',
-    description: 'Barba bem alinhada, navalha quente e acabamento profissional.',
-    image: '/services/foto-3.jpeg',
-  },
-  {
-    title: 'Colorimetria',
-    description: 'Técnicas avançadas de coloração para transformar seu visual com segurança.',
-    image: '/services/foto-4.jpeg',
-  },
-]
-
-const extraServices = [
-  'Cabelo + Barba',
-  'Meia barba',
-  'Cavanhaque',
-  'Sobrancelha',
-  'Pezinho',
-  'Depilação nariz/ouvido',
-  'Selagem',
-  'Hidratação',
-  'Luzes/Platinado',
-]
-
 export default function Servicos() {
+  const [services, setServices] = useState([])
+  const [extraServices, setExtraServices] = useState([])
   const [showMore, setShowMore] = useState(false)
+
+  useEffect(() => {
+    let mounted = true
+
+    async function loadData() {
+      try {
+        const servicesQuery = query(collection(db, 'mainServices'), orderBy('order'))
+        const servicesSnap = await getDocs(servicesQuery)
+
+        const extraRef = doc(db, 'services', 'extra')
+        const extraSnap = await getDoc(extraRef)
+
+        if (!mounted) return
+
+        setServices(servicesSnap.docs.map((d) => ({ id: d.id, ...d.data() })))
+
+        const extraData = extraSnap.exists() ? extraSnap.data() : null
+        setExtraServices(Array.isArray(extraData?.extraServices) ? extraData.extraServices : [])
+      } catch (err) {
+        console.error('Erro ao carregar serviços:', err)
+      }
+    }
+
+    loadData()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   return (
     <section id="servicos" className="section-dark">
@@ -47,7 +50,7 @@ export default function Servicos() {
 
         <div className={styles.grid}>
           {services.map((service) => (
-            <div key={service.title} className={styles.card}>
+            <div key={service.id} className={styles.card}>
               <img src={service.image} alt={service.title} className={styles.image} />
 
               <div className={styles.hoverOverlay}>
@@ -74,8 +77,8 @@ export default function Servicos() {
 
           <div className={`${styles.extraList} ${showMore ? styles.extraListOpen : ''}`}>
             <ul className={styles.extraGrid}>
-              {extraServices.map((item) => (
-                <li key={item} className={styles.extraItem}>
+              {extraServices.map((item, index) => (
+                <li key={`${item}-${index}`} className={styles.extraItem}>
                   {item}
                 </li>
               ))}
