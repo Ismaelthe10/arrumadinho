@@ -1,6 +1,6 @@
 import styles from './Products.module.css'
 
-const WHATSAPP_NUMBER = '554198496829' // mesmo número usado no Header/Hero — trocar pelo real
+const WHATSAPP_NUMBER = '554198496829' 
 
 const products = [
   {

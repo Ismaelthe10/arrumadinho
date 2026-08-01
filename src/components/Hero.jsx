@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import styles from './Hero.module.css'
 
-const WHATSAPP_LINK = 'https://wa.me/554198496829' // mesmo link do Header — trocar pelo real
+const WHATSAPP_LINK = 'https://wa.me/554198496829' 
 
 
 const heroImages = [
-  { src: '/hero/foto-1.jpg', alt: 'ambiente barbearia arrumadinho' },
+ 
   { src: '/hero/foto-2.jpg', alt: 'ambiente barbearia arrumadinho' },
   { src: '/hero/foto-5.jpg', alt: 'ambiente barbearia arrumadinho' },
   { src: '/hero/foto-6.jpg',alt: 'ambiente barbearia arrumadinho' },

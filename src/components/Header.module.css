@@ -4,7 +4,6 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Barra principal em grid: logo | nav | social — permite nav 100% centralizada */
 .bar {
   max-width: 1200px;
   margin: 0 auto;

@@ -2,18 +2,7 @@ import { useState } from "react";
 import { useCloudinaryUpload } from "../hooks/useCloudinaryUpload";
 import styles from "./ImageUploadField.module.css";
 
-/**
- * Campo de imagem com upload direto pro Cloudinary.
- * Mantém compatibilidade com o padrão atual: recebe/emite uma URL (string).
- *
- * Uso:
- *   <ImageUploadField
- *     label="Imagem do card"
- *     value={form.image}
- *     onChange={(url) => setForm((f) => ({ ...f, image: url }))}
- *     tag="products"
- *   />
- */
+
 export default function ImageUploadField({
   label,
   value,
