@@ -31,7 +31,7 @@ const openingHours = [
   { day: 'Sábado', hours: '09:00/17:00' },
 ]
 
-function Footer() {
+export default function Footer() {
   return (
     <footer className="section-dark">
       <div className={styles.container}>
@@ -104,4 +104,3 @@ function Footer() {
   )
 }
 
-export default Footer

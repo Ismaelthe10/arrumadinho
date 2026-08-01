@@ -1,0 +1,23 @@
+.container { composes: container from './adminShared.module.css'; }
+.title { composes: title from './adminShared.module.css'; }
+.hint { composes: hint from './adminShared.module.css'; }
+.errorBox { composes: errorBox from './adminShared.module.css'; }
+.successBox { composes: successBox from './adminShared.module.css'; }
+.list { composes: list from './adminShared.module.css'; }
+
+.item {
+  composes: itemRow from './adminShared.module.css';
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.itemFields { composes: itemFields from './adminShared.module.css'; }
+.label { composes: label from './adminShared.module.css'; }
+.input { composes: input from './adminShared.module.css'; }
+.preview { composes: preview from './adminShared.module.css'; }
+.itemActions { composes: itemActions from './adminShared.module.css'; }
+.iconButton { composes: iconButton from './adminShared.module.css'; }
+.iconButtonDanger { composes: iconButtonDanger from './adminShared.module.css'; }
+.addButton { composes: addButton from './adminShared.module.css'; }
+.saveBar { composes: saveBar from './adminShared.module.css'; }
+.saveButton { composes: saveButton from './adminShared.module.css'; }
