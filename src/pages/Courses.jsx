@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { CheckCircleFillIcon, ZapIcon, PeopleIcon, MortarBoardIcon, CreditCardIcon } from '@primer/octicons-react'
 import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { db } from '../infra/firebase'
+import Seo from '../components/Seo'
 import styles from './Cursos.module.css'
 
 const WHATSAPP_NUMBER = '554198496829'
@@ -56,8 +57,27 @@ export default function Courses() {
     }
   }, [])
 
+  const coursesJsonLd = courses.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@graph': courses.map((course) => ({
+      '@type': 'Course',
+      name: course.title,
+      description: course.description,
+      provider: {
+        '@type': 'Organization',
+        name: 'Barbearia Arrumadinho',
+        sameAs: 'https://www.barbeariaarrumadinho.com.br/',
+      },
+    })),
+  } : null
+
   return (
     <>
+      <Seo
+        title="Cursos de Barbeiro | Barbearia Arrumadinho"
+        description="Cursos profissionais de barbeiro em Colombo/PR: do iniciante ao avançado, com prática intensiva e certificação."
+        jsonLd={coursesJsonLd}
+      />
       {/* Hero com curso-2 de fundo */}
       <section className={styles.hero}>
         <img src="/courses/curso-02.jpg" alt="" aria-hidden="true" className={styles.heroImage} />
