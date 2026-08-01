@@ -3,7 +3,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import styles from './Hero.module.css'
 
-const WHATSAPP_LINK = 'https://wa.me/554198496829'
+const WHATSAPP_LINK = 'https://wa.me/554198496829?text=Olá,%20gostaria%20de%20agendar%20um%20horário!'
 
 export default function Hero() {
   const [heroImages, setHeroImages] = useState([])

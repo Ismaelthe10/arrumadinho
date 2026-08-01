@@ -5,7 +5,7 @@ import styles from './Footer.module.css'
 
 const ADDRESS = 'R. Huxley, 317 - Guarani, Colombo - PR, 83408-180'
 const WHATSAPP_NUMBER = '554198496829'
-const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Olá,%20gostaria%20de%20agendar%20um%20horário!`
 const INSTAGRAM_LINK = 'https://www.instagram.com/barbeariaarrumadinho/'
 
 const navLinks = [

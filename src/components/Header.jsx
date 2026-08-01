@@ -14,7 +14,7 @@ const navLinks = [
 
 
 const socialLinks = [
-  { label: 'WhatsApp', href: 'https://wa.me/554198496829', Icon: WhatsAppIcon },
+  { label: 'WhatsApp', href: 'https://wa.me/554198496829?text=Olá,%20gostaria%20de%20agendar%20um%20horário!', Icon: WhatsAppIcon },
   { label: 'Instagram', href: 'https://www.instagram.com/barbeariaarrumadinho/', Icon: InstagramIcon },
 ]
 
