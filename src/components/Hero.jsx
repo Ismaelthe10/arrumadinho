@@ -10,6 +10,8 @@ export default function Hero() {
   const [heroImages, setHeroImages] = useState([])
   const [current, setCurrent] = useState(0)
 
+  const [renderedIndices, setRenderedIndices] = useState(new Set([0]))
+
   useEffect(() => {
     let mounted = true
 
@@ -36,8 +38,18 @@ export default function Hero() {
 
   useEffect(() => {
     if (heroImages.length <= 1) return
+    setRenderedIndices((prev) => new Set(prev).add(1 % heroImages.length))
+  }, [heroImages])
+
+  useEffect(() => {
+    if (heroImages.length <= 1) return
     const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % heroImages.length)
+      setCurrent((prev) => {
+        const next = (prev + 1) % heroImages.length
+        const upcoming = (next + 1) % heroImages.length
+        setRenderedIndices((r) => new Set(r).add(upcoming))
+        return next
+      })
     }, 4000)
     return () => clearInterval(interval)
   }, [heroImages])
@@ -65,14 +77,17 @@ export default function Hero() {
 
         <div className={styles.imageBlock}>
           {heroImages.map((image, index) => (
-            <img
-              key={image.src}
-              src={optimizeCloudinaryUrl(image.src, 1200)}
-              alt={image.alt}
-              className={styles.image}
-              style={{ opacity: index === current ? 1 : 0 }}
-              fetchpriority={index === 0 ? 'high' : 'low'}
-            />
+            renderedIndices.has(index) && (
+              <img
+                key={image.src}
+                src={optimizeCloudinaryUrl(image.src, 1200)}
+                alt={image.alt}
+                className={styles.image}
+                style={{ opacity: index === current ? 1 : 0 }}
+                fetchpriority={index === 0 ? 'high' : 'low'}
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
+            )
           ))}
         </div>
       </div>
