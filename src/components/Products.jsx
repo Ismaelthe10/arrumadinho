@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import styles from './Products.module.css'
+import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
 
 const WHATSAPP_NUMBER = '554198496829'
 
@@ -50,7 +51,7 @@ export default function Products() {
         <div className={styles.grid}>
           {products.map((product) => (
             <div key={product.id} className={styles.card}>
-              <img src={product.image} alt={product.title} className={styles.image} />
+              <img src={optimizeCloudinaryUrl(product.image, 500)} alt={product.title} className={styles.image} loading="lazy" />
 
               <div className={styles.hoverOverlay}>
                 <p className={styles.overlayDescription}>{product.description}</p>

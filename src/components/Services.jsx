@@ -3,6 +3,7 @@ import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react'
 import { collection, getDocs, query, orderBy, doc, getDoc } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import styles from './Services.module.css'
+import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
 
 export default function Servicos() {
   const [services, setServices] = useState([])
@@ -51,7 +52,7 @@ export default function Servicos() {
         <div className={styles.grid}>
           {services.map((service) => (
             <div key={service.id} className={styles.card}>
-              <img src={service.image} alt={service.title} className={styles.image} />
+              <img src={optimizeCloudinaryUrl(service.image, 500)} alt={service.title} className={styles.image} />
 
               <div className={styles.hoverOverlay}>
                 <p className={styles.overlayDescription}>{service.description}</p>

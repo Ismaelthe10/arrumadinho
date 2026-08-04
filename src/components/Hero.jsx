@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import styles from './Hero.module.css'
+import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
 
 const WHATSAPP_LINK = 'https://wa.me/554198496829?text=Olá,%20gostaria%20de%20agendar%20um%20horário!'
 
@@ -66,10 +67,11 @@ export default function Hero() {
           {heroImages.map((image, index) => (
             <img
               key={image.src}
-              src={image.src}
+              src={optimizeCloudinaryUrl(image.src, 1200)}
               alt={image.alt}
               className={styles.image}
               style={{ opacity: index === current ? 1 : 0 }}
+              fetchpriority={index === 0 ? 'high' : 'low'}
             />
           ))}
         </div>

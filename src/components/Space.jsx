@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import styles from './Space.module.css'
+import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
 
 export default function Space() {
   const [spacePhotos, setSpacePhotos] = useState([])
@@ -39,9 +40,10 @@ export default function Space() {
           {spacePhotos.map((photo, index) => (
             <div key={`${photo}-${index}`} className={styles.photoWrapper}>
               <img
-                src={photo}
+                src={optimizeCloudinaryUrl(photo, 600)}
                 alt={`Ambiente da barbearia ${index + 1}`}
                 className={styles.photo}
+                loading="lazy"
               />
             </div>
           ))}
