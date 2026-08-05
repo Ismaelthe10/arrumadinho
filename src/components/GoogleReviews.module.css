@@ -69,53 +69,48 @@
   border: 0;
 }
 
-.reviewsList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-height: 560px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.reviewCard {
-  background: #ffffff;
-  border: 1px solid rgba(15, 29, 58, 0.08);
-  border-radius: 12px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.reviewHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.reviewName {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--text-on-light);
-}
-
-.reviewTime {
-  font-size: 0.8rem;
-  color: #999;
-  white-space: nowrap;
-}
-
 .stars {
   display: flex;
-  gap: 2px;
-  color: #F5B301;
+  gap: 4px;
+  color: #f5b301;
 }
 
-.reviewText {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #5F5E5A;
+.ratingSummary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 2rem;
+}
+
+.ratingNumber {
+  font-size: 3rem;
+  font-weight: 700;
   margin: 0;
+  line-height: 1;
+}
+
+.ratingCount {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin: 0 0 1rem;
+}
+
+.ratingButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid currentColor;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.ratingButton:hover {
+  opacity: 0.7;
 }
