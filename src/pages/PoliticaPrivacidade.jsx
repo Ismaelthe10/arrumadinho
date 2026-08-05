@@ -5,7 +5,7 @@ export default function PoliticaPrivacidade() {
     <section className="section-dark">
       <div className={styles.container}>
         <h1 className={styles.title}>Política de Privacidade</h1>
-        <p className={styles.updated}>Última atualização: julho de 2026</p>
+        <p className={styles.updated}>Última atualização: agosto de 2026</p>
 
         <div className={styles.content}>
           <p>
@@ -36,18 +36,46 @@ export default function PoliticaPrivacidade() {
 
           <h2>3. Compartilhamento de informações</h2>
           <p>
-            Seus dados podem ser compartilhados com prestadores de serviço
-            que nos auxiliam na operação do site (como hospedagem e
-            ferramentas de comunicação), sempre respeitando o mesmo nível de
-            proteção previsto nesta política.
+            Para operar este site, utilizamos os seguintes serviços de
+            terceiros, que podem processar dados técnicos de navegação:
+          </p>
+          <ul>
+            <li>
+              <strong>Google Firebase</strong> (Google LLC) — autenticação e
+              armazenamento das informações exibidas no site;
+            </li>
+            <li>
+              <strong>Cloudinary</strong> — hospedagem e entrega das imagens
+              exibidas no site;
+            </li>
+            <li>
+              <strong>Google Maps</strong> — exibição do mapa com nossa
+              localização;
+            </li>
+            <li>
+              <strong>Google reCAPTCHA</strong> — proteção contra acessos
+              automatizados e uso indevido do site;
+            </li>
+            <li>
+              <strong>Vercel</strong> — hospedagem e entrega do site.
+            </li>
+          </ul>
+          <p>
+            Esses serviços têm suas próprias políticas de privacidade,
+            independentes desta. Não vendemos nem compartilhamos seus dados
+            pessoais com terceiros para fins comerciais ou publicitários.
           </p>
 
           <h2>4. Cookies</h2>
           <p>
-            Este site pode utilizar cookies e tecnologias similares para
-            melhorar sua experiência de navegação. Você pode desativar os
-            cookies nas configurações do seu navegador, embora isso possa
-            afetar algumas funcionalidades do site.
+            Este site não utiliza cookies de publicidade ou rastreamento
+            próprios. Alguns dos serviços listados no item 3 — em especial o
+            Google Maps e o Google reCAPTCHA — podem definir cookies do
+            próprio Google, necessários para seu funcionamento (exibir o
+            mapa e proteger o site contra abuso automatizado). Você pode
+            gerenciar cookies nas configurações do seu navegador, embora
+            isso possa afetar a exibição do mapa ou o funcionamento de
+            alguns recursos do site.
           </p>
 
           <h2>5. Seus direitos</h2>
@@ -83,4 +111,3 @@ export default function PoliticaPrivacidade() {
     </section>
   )
 }
-

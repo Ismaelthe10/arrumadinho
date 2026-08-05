@@ -1,24 +1,7 @@
 import { useEffect } from 'react'
 
-/**
- * Atualiza title/description da página conforme a rota.
- * Sem dependência externa (react-helmet etc.) — só document.title e a
- * tag <meta name="description"> que já existe no index.html.
- *
- * Uso, dentro de cada page:
- *   <Seo
- *     title="Cursos de Barbeiro | Barbearia Arrumadinho"
- *     description="Cursos profissionais de barbeiro em Colombo/PR..."
- *   />
- *
- * Limitação importante: isso só ajuda o Google (que executa JS antes de
- * indexar) e quem navega DENTRO do site. Crawlers de redes sociais
- * (WhatsApp, Facebook) geralmente NÃO executam JS — pra eles, o título/
- * descrição/imagem que aparecem ao colar um link SEMPRE vêm do
- * index.html estático, não deste componente. Por isso o index.html tem
- * as tags genéricas do negócio como um todo (funciona bem pra Home).
- */
-export default function Seo({ title, description, jsonLd }) {
+
+export default function Seo({ title, description, jsonLd, noindex = false }) {
   useEffect(() => {
     if (title) {
       document.title = title
@@ -34,6 +17,16 @@ export default function Seo({ title, description, jsonLd }) {
       meta.setAttribute('content', description)
     }
 
+    if (noindex) {
+      let robotsMeta = document.querySelector('meta[name="robots"]')
+      if (!robotsMeta) {
+        robotsMeta = document.createElement('meta')
+        robotsMeta.setAttribute('name', 'robots')
+        document.head.appendChild(robotsMeta)
+      }
+      robotsMeta.setAttribute('content', 'noindex, nofollow')
+    }
+
     let scriptTag
     if (jsonLd) {
       scriptTag = document.createElement('script')
@@ -42,13 +35,15 @@ export default function Seo({ title, description, jsonLd }) {
       document.head.appendChild(scriptTag)
     }
 
-    // Limpeza: ao sair da página, remove o JSON-LD específico dela
-    // (title/description ficam até a próxima página trocar de novo,
-    // sem problema, já que sempre há um valor válido)
+
     return () => {
       if (scriptTag) document.head.removeChild(scriptTag)
+      if (noindex) {
+        const robotsMeta = document.querySelector('meta[name="robots"]')
+        if (robotsMeta) robotsMeta.setAttribute('content', 'index, follow')
+      }
     }
-  }, [title, description, jsonLd])
+  }, [title, description, jsonLd, noindex])
 
   return null
 }

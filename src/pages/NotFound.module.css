@@ -1,0 +1,45 @@
+.section {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.code {
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0 0 16px;
+  color: var(--text-on-light);
+  opacity: 0.15;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--text-on-light);
+}
+
+.text {
+  font-size: 1rem;
+  opacity: 0.75;
+  margin: 0 0 32px;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px;
+  background: var(--text-on-light);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}

@@ -12,6 +12,7 @@ import Courses from './pages/Courses.jsx'
 import About from './pages/About.jsx'
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx'
 import TermosDeUso from './pages/TermosDeUso.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/sobre" element={<About />} />
           <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
           <Route path="/termos-de-uso" element={<TermosDeUso />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
 
         <Route path="/admin" element={<AdminLayout />}>
