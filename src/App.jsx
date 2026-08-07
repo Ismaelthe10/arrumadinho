@@ -32,7 +32,7 @@ export default function App() {
           <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
           <Route path="/termos-de-uso" element={<TermosDeUso />} />
           <Route path="*" element={<NotFound />} />
-        </Route>
+        </Route> 
 
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
