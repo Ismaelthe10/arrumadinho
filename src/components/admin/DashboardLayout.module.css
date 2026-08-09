@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  min-height: calc(100vh - 60px); /* ajuste 60px conforme altura real do AdminHeader */
+  position: relative;
+}
+
+.sidebarArea {
+  width: 240px;
+  flex-shrink: 0;
+  border-right: 1px solid #E0E0E0;
+  background: #FAFAFA;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .sidebarArea {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #E0E0E0;
+  }
+}
