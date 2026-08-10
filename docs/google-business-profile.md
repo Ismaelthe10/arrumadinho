@@ -1,5 +1,26 @@
 # Google Business Profile — checklist
 
+> **Estado em 10/08/2026:** a ficha existe, está reivindicada ("Confirmado por
+> esta empresa há 6 semanas") e o NAP bate com o site caractere por caractere.
+> CID: `1906991965719408713` ·
+> [ficha](https://www.google.com/maps?cid=1906991965719408713)
+
+## 🔴 Corrigir primeiro: o campo "Site"
+
+Hoje aponta para **`contate.me`**, e não para `https://www.barbeariaarrumadinho.com.br`.
+
+O link do perfil é normalmente o sinal mais forte que o site de um negócio local
+recebe do Google. Enquanto ele apontar para outro domínio, as 394 avaliações e
+toda a autoridade da ficha não transferem nada para o site — o que é coerente
+com o "Detectada, mas não indexada" e o "nenhuma página de referência detectada"
+que o Search Console reporta.
+
+Não é preciso abrir mão da conversão por WhatsApp: o GBP tem campo separado para
+link de agendamento.
+
+- **Site:** `https://www.barbeariaarrumadinho.com.br`
+- **Agendamento:** o link do WhatsApp (ou o `contate.me`, se preferir)
+
 Para a busca "barbearia" e variações, o Google responde com o *local pack* (mapa
 + 3 negócios). Essa escolha vem majoritariamente do perfil, não do site. Este é
 o item de maior impacto do projeto, e é o único que não se resolve em código.
@@ -32,6 +53,14 @@ atender toda a região metropolitana no negócio de maior ticket.
 
 Considere também `Salão de beleza` como terceira, por causa de colorimetria,
 luzes e hidratação.
+
+Hoje a ficha tem apenas `Barbearia`.
+
+## 2.1. Atributos a revisar
+
+A ficha declara **"Se identifica como uma empresa de empreendedoras"**, atributo
+que marca empresa de propriedade feminina. Como o proprietário é Allan Tortato,
+provavelmente foi marcado por engano — vale conferir e remover.
 
 ## 3. Horário de funcionamento
 
