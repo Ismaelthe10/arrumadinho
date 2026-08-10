@@ -1,6 +1,6 @@
 import { PlusIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon } from '@primer/octicons-react'
-import { useFirestoreArrayDoc } from '../../../hooks/useFirestoreArrayDoc'
-import ImageUploadField from '../../../components/ImageUploadField'
+import { useFirestoreArrayDoc } from '../../hooks/useFirestoreArrayDoc'
+import ImageUploadField from '../../components/ImageUploadField'
 import styles from './HeroAdmin.module.css'
 
 export default function HeroAdmin() {

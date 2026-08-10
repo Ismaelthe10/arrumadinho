@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import {
   collection, getDocs, doc, setDoc, deleteDoc, query, orderBy,
 } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { db } from '../../infra/firebase'
 
 export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {}) {
   const [items, setItems] = useState([])

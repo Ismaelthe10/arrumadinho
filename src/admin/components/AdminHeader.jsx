@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../infra/firebase'
-import { useAuth } from '../../context/AuthContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 import styles from './AdminHeader.module.css'
 
 export default function AdminHeader() {

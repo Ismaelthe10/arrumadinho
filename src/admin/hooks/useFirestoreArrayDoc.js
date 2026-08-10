@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { db } from '../../infra/firebase'
 
 export function useFirestoreArrayDoc(pathSegments, fieldName, defaultItem) {
   const [items, setItems] = useState([])

@@ -1,0 +1,40 @@
+.container { composes: container from './AdminShared.module.css'; }
+.title { composes: title from './AdminShared.module.css'; }
+.block { composes: block from './AdminShared.module.css'; }
+.blockTitle { composes: blockTitle from './AdminShared.module.css'; }
+.errorBox { composes: errorBox from './AdminShared.module.css'; }
+.successBox { composes: successBox from './AdminShared.module.css'; }
+.list { composes: list from './AdminShared.module.css'; }
+.item { composes: item from './AdminShared.module.css'; }
+.itemTop { composes: itemTop from './AdminShared.module.css'; }
+.itemFooter { composes: itemFooter from './AdminShared.module.css'; }
+.itemFields { composes: itemFields from './AdminShared.module.css'; }
+.label { composes: label from './AdminShared.module.css'; }
+.input { composes: input from './AdminShared.module.css'; }
+.textarea { composes: textarea from './AdminShared.module.css'; }
+.preview { composes: preview from './AdminShared.module.css'; }
+.itemActions { composes: itemActions from './AdminShared.module.css'; }
+.iconButton { composes: iconButton from './AdminShared.module.css'; }
+.iconButtonDanger { composes: iconButtonDanger from './AdminShared.module.css'; }
+.addButton { composes: addButton from './AdminShared.module.css'; }
+.saveBar { composes: saveBar from './AdminShared.module.css'; }
+.saveButton { composes: saveButton from './AdminShared.module.css'; }
+.saveButtonSmall { composes: saveButtonSmall from './AdminShared.module.css'; }
+
+/* Específico de "Outros serviços" (lista simples) */
+.extraList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.extraItem {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.extraItem .input {
+  flex: 1;
+}

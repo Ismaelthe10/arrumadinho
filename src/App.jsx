@@ -1,10 +1,10 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext.jsx'
+import { AuthProvider } from './admin/context/AuthContext.jsx'
 import { Suspense, lazy } from 'react'
-import ProtectedRoute from './components/admin/ProtectedRoute.jsx'
+import ProtectedRoute from './admin/components/ProtectedRoute.jsx'
 
-import AdminLogin from './pages/admin/AdminLogin.jsx'
-import AdminLayout from './components/admin/AdminLayout.jsx'
+import AdminLogin from './admin/pages/AdminLogin.jsx'
+import AdminLayout from './admin/components/AdminLayout.jsx'
 
 import Layout from './components/Layout.jsx'
 import Home from './pages/Home.jsx'
@@ -13,13 +13,13 @@ import About from './pages/About.jsx'
 import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx'
 import TermosDeUso from './pages/TermosDeUso.jsx'
 import NotFound from './pages/NotFound.jsx'
-import DashboardLayout from './components/admin/DashboardLayout.jsx'
+import DashboardLayout from './admin/components/DashboardLayout.jsx'
 
-const HeroAdmin = lazy(() => import('./pages/admin/sections/HeroAdmin.jsx'))
-const ServicesAdmin = lazy(() => import('./pages/admin/sections/ServicesAdmin.jsx'))
-const ProductsAdmin = lazy(() => import('./pages/admin/sections/ProductsAdmin.jsx'))
-const CoursesAdmin = lazy(() => import('./pages/admin/sections/CoursesAdmin.jsx'))
-const SpaceAdmin = lazy(() => import('./pages/admin/sections/SpaceAdmin.jsx'))
+const HeroAdmin = lazy(() => import('./admin/pages/sections/HeroAdmin.jsx'))
+const ServicesAdmin = lazy(() => import('./admin/pages/sections/ServicesAdmin.jsx'))
+const ProductsAdmin = lazy(() => import('./admin/pages/sections/ProductsAdmin.jsx'))
+const CoursesAdmin = lazy(() => import('./admin/pages/sections/CoursesAdmin.jsx'))
+const SpaceAdmin = lazy(() => import('./admin/pages/sections/SpaceAdmin.jsx'))
 
 export default function App() {
   return (

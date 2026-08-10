@@ -1,6 +1,6 @@
 import { PlusIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon } from '@primer/octicons-react'
-import { useFirestoreList } from '../../../hooks/useFirestoreList'
-import ImageUploadField from '../../../components/ImageUploadField'
+import { useFirestoreList } from '../../hooks/useFirestoreList'
+import ImageUploadField from '../../components/ImageUploadField'
 import styles from './ServicesAdmin.module.css'
 
 const MAX_SERVICES = 3

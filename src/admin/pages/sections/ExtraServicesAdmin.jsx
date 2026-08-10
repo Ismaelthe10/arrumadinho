@@ -1,5 +1,5 @@
 import { PlusIcon, TrashIcon } from '@primer/octicons-react'
-import { useFirestoreArrayDoc } from '../../../hooks/useFirestoreArrayDoc'
+import { useFirestoreArrayDoc } from '../../hooks/useFirestoreArrayDoc'
 import styles from './ServicesAdmin.module.css'
 
 export default function ExtraServicesAdmin() {

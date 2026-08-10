@@ -1,5 +1,5 @@
 import { PlusIcon, TrashIcon, ArrowUpIcon, ArrowDownIcon } from '@primer/octicons-react'
-import { useFirestoreList } from '../../../hooks/useFirestoreList'
+import { useFirestoreList } from '../../hooks/useFirestoreList'
 import styles from './CoursesAdmin.module.css'
 
 const ITEMS_COUNT = 3

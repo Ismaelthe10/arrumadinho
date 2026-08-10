@@ -3,7 +3,7 @@ import { CheckCircleFillIcon, ZapIcon, PeopleIcon, MortarBoardIcon, CreditCardIc
 import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import Seo from '../components/Seo'
-import styles from './Cursos.module.css'
+import styles from './Courses.module.css'
 
 const WHATSAPP_NUMBER = '554198496829'
 

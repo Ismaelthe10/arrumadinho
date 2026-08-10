@@ -1,7 +1,7 @@
 import { useNavigate, Navigate } from 'react-router-dom'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, googleProvider } from '../../infra/firebase.js'
-import { useAuth } from '../../context/AuthContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 import styles from './AdminLogin.module.css'
 
 export default function AdminLogin() {
