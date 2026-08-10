@@ -25,18 +25,28 @@ export const ADDRESS = {
   country: 'BR',
   full: 'R. Huxley, 317 - Guarani, Colombo - PR, 83408-180',
 }
-// Coordenadas do endereço, conforme o Google Maps. Números separados porque o
-// schema.org exige latitude e longitude como propriedades distintas.
+// Coordenadas do pin oficial da ficha no Google Maps (extraídas da URL do
+// perfil). Números separados porque o schema.org exige latitude e longitude
+// como propriedades distintas.
 export const GEO = {
-  latitude: -25.37684393350955,
-  longitude: -49.19114916634053,
+  latitude: -25.376884,
+  longitude: -49.1911567,
 }
+
+// CID da ficha no Google Business Profile. A URL curta compartilhada pelo
+// perfil (maps.app.goo.gl) carrega parâmetros de sessão que expiram, então
+// guardamos a forma canônica por CID, que é estável.
+export const GOOGLE_PLACE_CID = '1906991965719408713'
+export const GOOGLE_MAPS_URL = `https://www.google.com/maps?cid=${GOOGLE_PLACE_CID}`
 
 export const INSTAGRAM = 'https://www.instagram.com/barbeariaarrumadinho/'
 export const SOCIAL_LINKS = [INSTAGRAM]
 
 export const MAP_EMBED_SRC = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS.full)}&output=embed`
-export const GOOGLE_REVIEWS_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${BUSINESS_NAME} ${ADDRESS.full}`)}`
+
+// Aponta direto para a ficha, em vez de uma busca por nome + endereço, que
+// dependia de o Google acertar o resultado.
+export const GOOGLE_REVIEWS_LINK = GOOGLE_MAPS_URL
 
 // Fonte: perfil oficial do Google Business (confirmar periodicamente, pode mudar)
 export const RATING = 5.0
