@@ -80,7 +80,14 @@ export default function Courses() {
       />
       {/* Hero com curso-2 de fundo */}
       <section className={styles.hero}>
-        <img src="/courses/curso-02.jpg" alt="" aria-hidden="true" className={styles.heroImage} />
+        <img
+          src="/courses/curso-02.jpg"
+          alt=""
+          aria-hidden="true"
+          className={styles.heroImage}
+          fetchPriority="high"
+          loading="eager"
+        />
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>Cursos Profissionais de Barbeiro</h1>
@@ -93,7 +100,13 @@ export default function Courses() {
       {/* Por que escolher — título primeiro, ilustração atrás dos cards */}
       <section className="section-light">
         <div className={styles.whyContainer}>
-          <img src="/courses/curso-5.png" alt="" aria-hidden="true" className={styles.whyIllustration} />
+          <img
+            src="/courses/curso-5.png"
+            alt=""
+            aria-hidden="true"
+            className={styles.whyIllustration}
+            loading="lazy"
+          />
 
           <div className={styles.whyText}>
             <h2 className={styles.sectionTitle}>Por que escolher nossos cursos?</h2>
@@ -120,7 +133,13 @@ export default function Courses() {
     
       {/* Nossos Cursos */}
       <section className={styles.coursesSection}>
-        <img src="/courses/curso-6.jpg" alt="" aria-hidden="true" className={styles.coursesSectionImage} />
+        <img
+          src="/courses/curso-6.jpg"
+          alt=""
+          aria-hidden="true"
+          className={styles.coursesSectionImage}
+          loading="lazy"
+        />
         <div className={styles.coursesSectionOverlay} />
 
         <div className={styles.container}>

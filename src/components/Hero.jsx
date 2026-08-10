@@ -76,6 +76,16 @@ export default function Hero() {
         </div>
 
         <div className={styles.imageBlock}>
+          <img
+            src="/hero/foto-15.webp"
+            alt=""
+            aria-hidden="true"
+            className={styles.image}
+            style={{ opacity: heroImages.length === 0 ? 1 : 0 }}
+            fetchPriority="high"
+            loading="eager"
+          />
+
           {heroImages.map((image, index) => (
             renderedIndices.has(index) && (
               <img
@@ -84,7 +94,7 @@ export default function Hero() {
                 alt={image.alt}
                 className={styles.image}
                 style={{ opacity: index === current ? 1 : 0 }}
-                fetchpriority={index === 0 ? 'high' : 'low'}
+                fetchPriority={index === 0 ? 'high' : 'low'}
                 loading={index === 0 ? 'eager' : 'lazy'}
               />
             )

@@ -5,6 +5,13 @@ import { db } from '../infra/firebase'
 import styles from './Services.module.css'
 import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
 
+const WHATSAPP_NUMBER = '554198496829'
+
+function buildWhatsAppLink(serviceTitle) {
+  const message = `Olá! Tenho interesse no serviço "${serviceTitle}"`
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+}
+
 export default function Servicos() {
   const [services, setServices] = useState([])
   const [extraServices, setExtraServices] = useState([])
@@ -51,7 +58,13 @@ export default function Servicos() {
 
         <div className={styles.grid}>
           {services.map((service) => (
-            <div key={service.id} className={styles.card}>
+            <a
+              key={service.id}
+              href={buildWhatsAppLink(service.title)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.card}
+            >
               <img src={optimizeCloudinaryUrl(service.image, 500)} alt={service.title} className={styles.image} />
 
               <div className={styles.hoverOverlay}>
@@ -62,7 +75,7 @@ export default function Servicos() {
                 <h3 className={styles.cardTitle}>{service.title}</h3>
                 <p className={styles.mobileDescription}>{service.description}</p>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
