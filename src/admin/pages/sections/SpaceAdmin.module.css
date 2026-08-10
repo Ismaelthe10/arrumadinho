@@ -4,16 +4,13 @@
 .errorBox { composes: errorBox from './AdminShared.module.css'; }
 .successBox { composes: successBox from './AdminShared.module.css'; }
 .list { composes: list from './AdminShared.module.css'; }
-.item { composes: itemRow from './AdminShared.module.css'; }
-
-.item .input {
-  flex: 1;
+.item {
+  composes: item from './AdminShared.module.css';
+  max-width: 560px;
 }
-
-.itemFields { composes: itemFields from './AdminShared.module.css'; }
-.label { composes: label from './AdminShared.module.css'; }
-.input { composes: input from './AdminShared.module.css'; }
-.preview { composes: preview from './AdminShared.module.css'; }
+.itemHeader { composes: itemHeader from './AdminShared.module.css'; }
+.itemBadge { composes: itemBadge from './AdminShared.module.css'; }
+.emptyState { composes: emptyState from './AdminShared.module.css'; }
 .itemActions { composes: itemActions from './AdminShared.module.css'; }
 .iconButton { composes: iconButton from './AdminShared.module.css'; }
 .iconButtonDanger { composes: iconButtonDanger from './AdminShared.module.css'; }
