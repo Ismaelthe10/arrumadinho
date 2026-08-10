@@ -1,3 +1,37 @@
+/*
+ * Reset e tipografia base.
+ * Reproduz exatamente o que o BaseStyles/ThemeProvider do Primer fornecia antes
+ * de o pacote ser removido — o restante do @primer/primitives (~100 KB de tokens
+ * de design) não era usado por nenhum CSS deste projeto.
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  line-height: 1.5;
+  color: #1f2328;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/* Não mostrar o anel de foco em cliques de mouse, apenas na navegação por teclado */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+summary:focus:not(:focus-visible),
+[role='button']:focus:not(:focus-visible),
+[tabindex='0']:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
 :root {
   /* Paleta de marca - tons de azul marinho */
   --brand-navy-dark: #0F1D3A;
@@ -21,6 +55,16 @@
 
   /* Cor de destaque (CTAs, links, hover) — provisória, me diga se quer outra */
   --brand-accent: #4C8DFF;
+}
+
+/* Links sem classe própria (hoje não existe nenhum, mas evita o azul padrão do navegador) */
+a:not([class]) {
+  color: var(--brand-accent);
+  text-decoration: none;
+}
+
+a:not([class]):hover {
+  text-decoration: underline;
 }
 
 /* Classes reutilizáveis para alternar seções */

@@ -3,10 +3,13 @@ import WhatsAppIcon from './icons/WhatsAppIcon.jsx'
 import InstagramIcon from './icons/InstagramIcon.jsx'
 import styles from './Footer.module.css'
 
-const ADDRESS = 'R. Huxley, 317 - Guarani, Colombo - PR, 83408-180'
-const WHATSAPP_NUMBER = '554198496829'
-const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Olá,%20gostaria%20de%20agendar%20um%20horário!`
-const INSTAGRAM_LINK = 'https://www.instagram.com/barbeariaarrumadinho/'
+import {
+  ADDRESS,
+  BUSINESS_NAME,
+  INSTAGRAM,
+  OPENING_HOURS,
+  SCHEDULING_LINK,
+} from '../config/site'
 
 const navLinks = [
   { label: 'Início', href: '/#inicio' },
@@ -19,16 +22,6 @@ const navLinks = [
 const legalLinks = [
   { label: 'Política de Privacidade', href: '/politica-de-privacidade' },
   { label: 'Termos de Uso', href: '/termos-de-uso' },
-]
-
-const openingHours = [
-  { day: 'Domingo', hours: 'Fechado' },
-  { day: 'Segunda-feira', hours: '14:00/19:00' },
-  { day: 'Terça-feira', hours: '09:00/19:00' },
-  { day: 'Quarta-feira', hours: '09:00/19:00' },
-  { day: 'Quinta-feira', hours: '09:00/19:00' },
-  { day: 'Sexta-feira', hours: '09:00/19:00' },
-  { day: 'Sábado', hours: '09:00/17:00' },
 ]
 
 export default function Footer() {
@@ -49,10 +42,10 @@ export default function Footer() {
               ))}
             </ul>
             <div className={styles.social}>
-              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className={styles.socialIcon}>
+              <a href={SCHEDULING_LINK} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className={styles.socialIcon}>
                 <WhatsAppIcon size={20} />
               </a>
-              <a href={INSTAGRAM_LINK} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={styles.socialIcon}>
+              <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={styles.socialIcon}>
                 <InstagramIcon size={20} />
               </a>
             </div>
@@ -63,9 +56,9 @@ export default function Footer() {
             <h3 className={styles.columnTitle}>Contato</h3>
             <div className={styles.contactItem}>
               <LocationIcon size={16} />
-              <span>{ADDRESS}</span>
+              <span>{ADDRESS.full}</span>
             </div>
-            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
+            <a href={SCHEDULING_LINK} target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
               <WhatsAppIcon size={16} />
               <span>Falar no WhatsApp</span>
             </a>
@@ -77,10 +70,12 @@ export default function Footer() {
               <ClockIcon size={16} /> Horário de Funcionamento
             </h3>
             <ul className={styles.hoursList}>
-              {openingHours.map((item) => (
+              {OPENING_HOURS.map((item) => (
                 <li key={item.day} className={styles.hoursItem}>
                   <span>{item.day}</span>
-                  <span className={item.hours === 'Fechado' ? styles.closed : ''}>{item.hours}</span>
+                  <span className={item.closed ? styles.closed : ''}>
+                    {item.closed ? 'Fechado' : `${item.opens}/${item.closes}`}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -89,7 +84,7 @@ export default function Footer() {
 
         <div className={styles.bottomBar}>
           <p className={styles.copyright}>
-            © {new Date().getFullYear()} Barbearia Arrumadinho. Todos os direitos reservados.
+            © {new Date().getFullYear()} {BUSINESS_NAME}. Todos os direitos reservados.
           </p>
           <div className={styles.legalLinks}>
             {legalLinks.map((link) => (

@@ -1,14 +1,12 @@
 import { StarFillIcon, LinkExternalIcon } from '@primer/octicons-react'
 import styles from './GoogleReviews.module.css'
 
-const BUSINESS_NAME = 'Barbearia Arrumadinho'
-const ADDRESS = 'R. Huxley, 317 - Guarani, Colombo - PR, 83408-180'
-const MAP_EMBED_SRC = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`
-const GOOGLE_REVIEWS_LINK = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${BUSINESS_NAME} ${ADDRESS}`)}`
-
-// Fonte: perfil oficial do Google Business (confirmar periodicamente, pode mudar)
-const RATING = 5.0
-const REVIEW_COUNT_LABEL = '394 avaliações'
+import {
+  GOOGLE_REVIEWS_LINK,
+  MAP_EMBED_SRC,
+  RATING,
+  REVIEW_COUNT,
+} from '../config/site'
 
 function Stars() {
   return (
@@ -41,7 +39,7 @@ export default function GoogleReviews() {
           <div className={styles.ratingSummary}>
             <Stars />
             <p className={styles.ratingNumber}>{RATING}</p>
-            <p className={styles.ratingCount}>{REVIEW_COUNT_LABEL} no Google</p>
+            <p className={styles.ratingCount}>{REVIEW_COUNT} avaliações no Google</p>
             <a
               href={GOOGLE_REVIEWS_LINK}
               target="_blank"

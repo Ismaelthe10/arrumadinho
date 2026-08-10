@@ -41,7 +41,7 @@ export default function Space() {
             <div key={`${photo}-${index}`} className={styles.photoWrapper}>
               <img
                 src={optimizeCloudinaryUrl(photo, 600)}
-                alt={`Ambiente da barbearia ${index + 1}`}
+                alt={`Ambiente da Barbearia Arrumadinho em Colombo - PR (foto ${index + 1})`}
                 className={styles.photo}
                 loading="lazy"
               />

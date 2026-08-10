@@ -3,8 +3,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import styles from './Hero.module.css'
 import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
-
-const WHATSAPP_LINK = 'https://wa.me/554198496829?text=Olá,%20gostaria%20de%20agendar%20um%20horário!'
+import { SCHEDULING_LINK } from '../config/site'
 
 export default function Hero() {
   const [heroImages, setHeroImages] = useState([])
@@ -65,12 +64,14 @@ export default function Hero() {
             className={styles.watermark}
           />
 
-          <h1 className={styles.title}>Estilo e tradição em cada corte!</h1>
+          <h1 className={styles.title}>
+            Barbearia em Colombo — estilo e tradição em cada corte
+          </h1>
           <p className={styles.subtitle}>
-            Com quem entende do assunto. Profissionais experientes, ambiente
-            acolhedor e resultados que falam por si.
+            Corte com quem entende do assunto. Profissionais experientes,
+            ambiente acolhedor e resultados que falam por si.
           </p>
-          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className={styles.cta}>
+          <a href={SCHEDULING_LINK} target="_blank" rel="noopener noreferrer" className={styles.cta}>
             Agendar horário
           </a>
         </div>

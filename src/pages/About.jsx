@@ -1,8 +1,14 @@
+import Seo from '../components/Seo'
 import styles from './About.module.css'
 
 export default function About() {
   return (
     <section className="section-light">
+      <Seo
+        title="Nossa História | Barbearia Arrumadinho — Colombo/PR"
+        description="A história da Barbearia Arrumadinho, em Colombo/PR: fundada em 2017 por Dirceu Soltoski e conduzida desde 2024 por Allan Tortato."
+        path="/sobre"
+      />
       <div className={styles.container}>
         <h1 className={styles.title}>Nossa História</h1>
 
@@ -49,6 +55,14 @@ export default function About() {
               Já em maio de 2024, após anos de vivência, compromisso e amor
               pela profissão, <strong>Allan Tortato</strong> assume oficialmente a Barbearia
               Arrumadinho como proprietário.
+            </p>
+            <p>
+              Todo esse percurso aconteceu no mesmo lugar: a R. Huxley, no
+              bairro Guarani, em Colombo. Ficar próximo à divisa com Curitiba
+              fez com que a barbearia atendesse não só a vizinhança, mas gente
+              de toda a região metropolitana — e foi essa circulação que abriu
+              caminho para os cursos de barbeiro que hoje formam novos
+              profissionais dentro da própria barbearia.
             </p>
             <p>
               A Barbearia Arrumadinho é, acima de tudo, uma história de

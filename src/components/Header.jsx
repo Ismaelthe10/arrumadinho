@@ -3,6 +3,7 @@ import { XIcon, ThreeBarsIcon } from '@primer/octicons-react'
 import WhatsAppIcon from './icons/WhatsAppIcon.jsx'
 import InstagramIcon from './icons/InstagramIcon.jsx'
 import styles from './Header.module.css'
+import { BUSINESS_NAME, INSTAGRAM, SCHEDULING_LINK } from '../config/site'
 
 const navLinks = [
   { label: 'Início', href: '/#inicio' },
@@ -14,8 +15,8 @@ const navLinks = [
 
 
 const socialLinks = [
-  { label: 'WhatsApp', href: 'https://wa.me/554198496829?text=Olá,%20gostaria%20de%20agendar%20um%20horário!', Icon: WhatsAppIcon },
-  { label: 'Instagram', href: 'https://www.instagram.com/barbeariaarrumadinho/', Icon: InstagramIcon },
+  { label: 'WhatsApp', href: SCHEDULING_LINK, Icon: WhatsAppIcon },
+  { label: 'Instagram', href: INSTAGRAM, Icon: InstagramIcon },
 ]
 
 export default function Header() {
@@ -27,7 +28,7 @@ export default function Header() {
       <div className={styles.bar}>
         {/* Logo — esquerda */}
         <a href="/" className={styles.logo}>
-          <img src="/logo.svg" alt="Logo da empresa" className={styles.logoImg} />
+          <img src="/logo.svg" alt={BUSINESS_NAME} className={styles.logoImg} />
         </a>
 
         {/* Navegação — centro, só desktop */}

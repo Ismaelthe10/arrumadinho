@@ -1,16 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CheckCircleFillIcon, ZapIcon, PeopleIcon, MortarBoardIcon, CreditCardIcon } from '@primer/octicons-react'
 import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import Seo from '../components/Seo'
+import Faq from '../components/Faq.jsx'
+import { COURSES_FAQ, buildFaqJsonLd } from '../content/faq'
 import styles from './Courses.module.css'
-
-const WHATSAPP_NUMBER = '554198496829'
-
-function buildWhatsAppLink(courseTitle) {
-  const message = `Olá! Tenho interesse no curso "${courseTitle}"`
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-}
+import {
+  BUSINESS_ID,
+  BUSINESS_NAME,
+  SITE_URL,
+  buildInterestLink,
+  buildWhatsAppLink,
+} from '../config/site'
 
 // Conteúdo estático (institucional) — combinado que fica hardcoded por enquanto
 const features = [
@@ -57,26 +59,58 @@ export default function Courses() {
     }
   }, [])
 
-  const coursesJsonLd = courses.length > 0 ? {
-    '@context': 'https://schema.org',
-    '@graph': courses.map((course) => ({
-      '@type': 'Course',
-      name: course.title,
-      description: course.description,
-      provider: {
-        '@type': 'Organization',
-        name: 'Barbearia Arrumadinho',
-        sameAs: 'https://www.barbeariaarrumadinho.com.br/',
-      },
-    })),
-  } : null
+  // O rich result de lista de cursos do Google exige no mínimo 3 cursos, e cada
+  // um precisa de name e description não vazios — abaixo disso a marcação é
+  // ignorada, então não vale a pena emiti-la.
+  const coursesJsonLd = useMemo(() => {
+    const eligibleCourses = courses.filter((c) => c.title && c.description)
+    if (eligibleCourses.length < 3) return null
+
+    return {
+      '@type': 'ItemList',
+      itemListElement: eligibleCourses.map((course, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Course',
+          name: course.title,
+          description: course.description,
+          url: `${SITE_URL}/cursos`,
+          provider: {
+            '@type': 'Organization',
+            '@id': BUSINESS_ID,
+            name: BUSINESS_NAME,
+          },
+        },
+      })),
+    }
+  }, [courses])
+
+  const pageJsonLd = useMemo(
+    () => ({
+      '@context': 'https://schema.org',
+      '@graph': [
+        ...(coursesJsonLd ? [coursesJsonLd] : []),
+        buildFaqJsonLd(COURSES_FAQ),
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Início', item: `${SITE_URL}/` },
+            { '@type': 'ListItem', position: 2, name: 'Cursos', item: `${SITE_URL}/cursos` },
+          ],
+        },
+      ],
+    }),
+    [coursesJsonLd],
+  )
 
   return (
     <>
       <Seo
-        title="Cursos de Barbeiro | Barbearia Arrumadinho"
-        description="Cursos profissionais de barbeiro em Colombo/PR: do iniciante ao avançado, com prática intensiva e certificação."
-        jsonLd={coursesJsonLd}
+        title="Curso de Barbeiro em Colombo e Curitiba - PR | Barbearia Arrumadinho"
+        description="Cursos profissionais de barbeiro em Colombo/PR, atendendo toda a região de Curitiba: do iniciante ao avançado, com prática intensiva e certificação."
+        path="/cursos"
+        jsonLd={pageJsonLd}
       />
       {/* Hero com curso-2 de fundo */}
       <section className={styles.hero}>
@@ -90,10 +124,13 @@ export default function Courses() {
         />
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Cursos Profissionais de Barbeiro</h1>
+          <h1 className={styles.heroTitle}>
+            Curso de Barbeiro em Colombo e Curitiba
+          </h1>
           <p className={styles.heroSubtitle}>
             Formação prática e atualizada para quem deseja evoluir ou iniciar na
-            profissão com excelência.
+            profissão com excelência. Aulas na nossa barbearia em Colombo, a
+            poucos minutos de Curitiba.
           </p>
         </div>
       </section>
@@ -129,8 +166,58 @@ export default function Courses() {
             ))}
           </div>
         </div>
-      </section>      
-    
+      </section>
+
+      {/* Texto institucional — dá ao Google contexto sobre o que é o curso,
+          para quem é e o que ele cobre. Antes a página só tinha os cards. */}
+      <section className="section-light">
+        <div className={styles.proseContainer}>
+          <h2 className={styles.sectionTitle}>Para quem são os cursos</h2>
+          <p className={styles.prose}>
+            Nossas formações atendem três momentos diferentes da carreira. Quem
+            nunca pegou numa máquina começa pelo <strong>curso para
+            iniciantes</strong>, que leva do zero ao nível profissional com
+            acompanhamento próximo e uma metodologia estruturada — é o caminho
+            de quem quer mudar de profissão ou ter a barbearia como primeira
+            fonte de renda.
+          </p>
+          <p className={styles.prose}>
+            Quem já atende clientes e quer subir de patamar encontra no{' '}
+            <strong>curso extensivo para barbeiros</strong>, de 40 horas, um
+            trabalho voltado a nível técnico, produtividade e padrão de
+            atendimento. E o <strong>curso de aperfeiçoamento prático</strong>,
+            de 8 horas em um único dia, é para o profissional que quer atualizar
+            e afiar técnicas específicas sem parar a agenda por semanas.
+          </p>
+
+          <h2 className={styles.sectionTitle}>O que você vai aprender</h2>
+          <p className={styles.prose}>
+            O conteúdo é construído em cima do que realmente aparece na cadeira
+            todo dia: técnicas de tesoura e degradê, acabamento com navalha,
+            desenho e alinhamento de barba, e colorimetria — incluindo luzes e
+            platinado, que são os serviços de maior valor agregado e onde a
+            maioria dos barbeiros trava.
+          </p>
+          <p className={styles.prose}>
+            Mas técnica sozinha não sustenta uma cadeira cheia. Ao longo do
+            curso também se trabalha a parte que costuma ficar de fora das
+            formações: como conduzir o atendimento, manter padrão entre um
+            cliente e outro e organizar o próprio ritmo de trabalho para render
+            mais sem perder qualidade.
+          </p>
+
+          <h2 className={styles.sectionTitle}>Onde as aulas acontecem</h2>
+          <p className={styles.prose}>
+            As aulas são realizadas na própria Barbearia Arrumadinho, em
+            Colombo, no Paraná — a poucos minutos da divisa com Curitiba, o que
+            torna o deslocamento viável para alunos de toda a região
+            metropolitana. Aprender dentro de uma barbearia em funcionamento, e
+            não numa sala de aula montada só para o curso, é o que permite que a
+            prática aconteça com modelos reais e no ritmo do dia a dia.
+          </p>
+        </div>
+      </section>
+
       {/* Nossos Cursos */}
       <section className={styles.coursesSection}>
         <img
@@ -166,7 +253,7 @@ export default function Courses() {
                   </div>
 
                   <a
-                    href={buildWhatsAppLink(course.title)}
+                    href={buildInterestLink('curso', course.title)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.courseButton}
@@ -199,7 +286,7 @@ export default function Courses() {
             </p>
 
             <a
-              href={buildWhatsAppLink('Cursos Profissionais de Barbeiro')}
+              href={buildWhatsAppLink('Olá! Gostaria de mais informações sobre os cursos de barbeiro.')}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.finalButton}
@@ -209,6 +296,8 @@ export default function Courses() {
           </div>
         </div>
       </section>
+
+      <Faq title="Perguntas frequentes sobre os cursos" items={COURSES_FAQ} />
     </>
   )
 }
