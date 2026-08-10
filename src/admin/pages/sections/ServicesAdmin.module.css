@@ -5,14 +5,18 @@
 .errorBox { composes: errorBox from './AdminShared.module.css'; }
 .successBox { composes: successBox from './AdminShared.module.css'; }
 .list { composes: list from './AdminShared.module.css'; }
-.item { composes: item from './AdminShared.module.css'; }
-.itemTop { composes: itemTop from './AdminShared.module.css'; }
+.item {
+  composes: item from './AdminShared.module.css';
+  max-width: 560px;
+}
+.itemHeader { composes: itemHeader from './AdminShared.module.css'; }
+.itemBadge { composes: itemBadge from './AdminShared.module.css'; }
+.emptyState { composes: emptyState from './AdminShared.module.css'; }
 .itemFooter { composes: itemFooter from './AdminShared.module.css'; }
 .itemFields { composes: itemFields from './AdminShared.module.css'; }
 .label { composes: label from './AdminShared.module.css'; }
 .input { composes: input from './AdminShared.module.css'; }
 .textarea { composes: textarea from './AdminShared.module.css'; }
-.preview { composes: preview from './AdminShared.module.css'; }
 .itemActions { composes: itemActions from './AdminShared.module.css'; }
 .iconButton { composes: iconButton from './AdminShared.module.css'; }
 .iconButtonDanger { composes: iconButtonDanger from './AdminShared.module.css'; }
@@ -27,6 +31,7 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 12px;
+  max-width: 480px;
 }
 
 .extraItem {

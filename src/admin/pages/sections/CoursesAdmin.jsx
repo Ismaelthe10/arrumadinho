@@ -42,14 +42,33 @@ export default function CoursesAdmin() {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Cursos</h2>
+      <p className={styles.hint}>Os cursos aparecem no site nessa mesma ordem. Use as setas para reordenar.</p>
 
       {error && <div className={styles.errorBox}>{error}</div>}
       {successMsg && <div className={styles.successBox}>{successMsg}</div>}
 
-      <div className={styles.list}>
-        {courses.map((course, index) => (
-          <div key={course.id} className={styles.item}>
-            <div className={styles.itemTop}>
+      {courses.length === 0 ? (
+        <p className={styles.emptyState}>Nenhum curso cadastrado ainda. Clique em "Adicionar curso" para começar.</p>
+      ) : (
+        <div className={styles.list}>
+          {courses.map((course, index) => (
+            <div key={course.id} className={styles.item}>
+              <div className={styles.itemHeader}>
+                <span className={styles.itemBadge}>Curso {index + 1}</span>
+
+                <div className={styles.itemActions}>
+                  <button type="button" onClick={() => move(index, -1)} disabled={index === 0 || savingId !== null} className={styles.iconButton} aria-label="Mover para cima" title="Mover para cima">
+                    <ArrowUpIcon size={16} />
+                  </button>
+                  <button type="button" onClick={() => move(index, 1)} disabled={index === courses.length - 1 || savingId !== null} className={styles.iconButton} aria-label="Mover para baixo" title="Mover para baixo">
+                    <ArrowDownIcon size={16} />
+                  </button>
+                  <button type="button" onClick={() => remove(index)} className={styles.iconButtonDanger} aria-label="Remover curso" title="Remover curso">
+                    <TrashIcon size={16} />
+                  </button>
+                </div>
+              </div>
+
               <div className={styles.itemFields}>
                 <label className={styles.label}>
                   Título
@@ -86,27 +105,15 @@ export default function CoursesAdmin() {
                 </div>
               </div>
 
-              <div className={styles.itemActions}>
-                <button type="button" onClick={() => move(index, -1)} disabled={index === 0 || savingId !== null} className={styles.iconButton} aria-label="Mover para cima">
-                  <ArrowUpIcon size={16} />
-                </button>
-                <button type="button" onClick={() => move(index, 1)} disabled={index === courses.length - 1 || savingId !== null} className={styles.iconButton} aria-label="Mover para baixo">
-                  <ArrowDownIcon size={16} />
-                </button>
-                <button type="button" onClick={() => remove(index)} className={styles.iconButtonDanger} aria-label="Remover curso">
-                  <TrashIcon size={16} />
+              <div className={styles.itemFooter}>
+                <button type="button" onClick={() => saveOne(index, validateCourse)} disabled={savingId === course.id} className={styles.saveButtonSmall}>
+                  {savingId === course.id ? 'Salvando...' : 'Salvar este curso'}
                 </button>
               </div>
             </div>
-
-            <div className={styles.itemFooter}>
-              <button type="button" onClick={() => saveOne(index, validateCourse)} disabled={savingId === course.id} className={styles.saveButtonSmall}>
-                {savingId === course.id ? 'Salvando...' : 'Salvar este curso'}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <button type="button" onClick={add} className={styles.addButton}>
         <PlusIcon size={16} />

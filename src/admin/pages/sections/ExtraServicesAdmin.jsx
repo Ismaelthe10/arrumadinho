@@ -12,6 +12,12 @@ export default function ExtraServicesAdmin() {
     save((list) => (list.some((s) => !s.trim()) ? 'Não deixe itens vazios na lista de outros serviços.' : null))
   }
 
+  function handleRemove(index) {
+    if (window.confirm('A ação irá remover o item da lista imediatamente. Deseja continuar?')) {
+      remove(index)
+    }
+  }
+
   if (loading) return <p>Carregando...</p>
 
   return (
@@ -21,16 +27,20 @@ export default function ExtraServicesAdmin() {
       {error && <div className={styles.errorBox}>{error}</div>}
       {successMsg && <div className={styles.successBox}>{successMsg}</div>}
 
-      <div className={styles.extraList}>
-        {extraServices.map((item, index) => (
-          <div key={index} className={styles.extraItem}>
-            <input type="text" value={item} onChange={(e) => setItem(index, e.target.value)} className={styles.input} placeholder="Ex: Sobrancelha" />
-            <button type="button" onClick={() => remove(index)} className={styles.iconButtonDanger} aria-label="Remover item">
-              <TrashIcon size={16} />
-            </button>
-          </div>
-        ))}
-      </div>
+      {extraServices.length === 0 ? (
+        <p className={styles.emptyState}>Nenhum item cadastrado ainda.</p>
+      ) : (
+        <div className={styles.extraList}>
+          {extraServices.map((item, index) => (
+            <div key={index} className={styles.extraItem}>
+              <input type="text" value={item} onChange={(e) => setItem(index, e.target.value)} className={styles.input} placeholder="Ex: Sobrancelha" />
+              <button type="button" onClick={() => handleRemove(index)} className={styles.iconButtonDanger} aria-label="Remover item" title="Remover item">
+                <TrashIcon size={16} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
       <button type="button" onClick={add} className={styles.addButton}>
         <PlusIcon size={16} />

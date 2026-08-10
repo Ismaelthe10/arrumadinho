@@ -31,10 +31,28 @@ export default function MainServicesAdmin() {
       {error && <div className={styles.errorBox}>{error}</div>}
       {successMsg && <div className={styles.successBox}>{successMsg}</div>}
 
-      <div className={styles.list}>
-        {services.map((service, index) => (
-          <div key={service.id} className={styles.item}>
-            <div className={styles.itemTop}>
+      {services.length === 0 ? (
+        <p className={styles.emptyState}>Nenhum serviço principal cadastrado ainda.</p>
+      ) : (
+        <div className={styles.list}>
+          {services.map((service, index) => (
+            <div key={service.id} className={styles.item}>
+              <div className={styles.itemHeader}>
+                <span className={styles.itemBadge}>Serviço {index + 1}</span>
+
+                <div className={styles.itemActions}>
+                  <button type="button" onClick={() => move(index, -1)} disabled={index === 0 || savingId !== null} className={styles.iconButton} aria-label="Mover para cima" title="Mover para cima">
+                    <ArrowUpIcon size={16} />
+                  </button>
+                  <button type="button" onClick={() => move(index, 1)} disabled={index === services.length - 1 || savingId !== null} className={styles.iconButton} aria-label="Mover para baixo" title="Mover para baixo">
+                    <ArrowDownIcon size={16} />
+                  </button>
+                  <button type="button" onClick={() => remove(index)} className={styles.iconButtonDanger} aria-label="Remover serviço" title="Remover serviço">
+                    <TrashIcon size={16} />
+                  </button>
+                </div>
+              </div>
+
               <div className={styles.itemFields}>
                 <label className={styles.label}>
                   Título
@@ -52,27 +70,15 @@ export default function MainServicesAdmin() {
                 />
               </div>
 
-              <div className={styles.itemActions}>
-                <button type="button" onClick={() => move(index, -1)} disabled={index === 0 || savingId !== null} className={styles.iconButton} aria-label="Mover para cima">
-                  <ArrowUpIcon size={16} />
-                </button>
-                <button type="button" onClick={() => move(index, 1)} disabled={index === services.length - 1 || savingId !== null} className={styles.iconButton} aria-label="Mover para baixo">
-                  <ArrowDownIcon size={16} />
-                </button>
-                <button type="button" onClick={() => remove(index)} className={styles.iconButtonDanger} aria-label="Remover serviço">
-                  <TrashIcon size={16} />
+              <div className={styles.itemFooter}>
+                <button type="button" onClick={() => saveOne(index, validateService)} disabled={savingId === service.id} className={styles.saveButtonSmall}>
+                  {savingId === service.id ? 'Salvando...' : 'Salvar este serviço'}
                 </button>
               </div>
             </div>
-
-            <div className={styles.itemFooter}>
-              <button type="button" onClick={() => saveOne(index, validateService)} disabled={savingId === service.id} className={styles.saveButtonSmall}>
-                {savingId === service.id ? 'Salvando...' : 'Salvar este serviço'}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {services.length < MAX_SERVICES && (
         <button type="button" onClick={add} className={styles.addButton}>
