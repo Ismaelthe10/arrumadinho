@@ -4,13 +4,7 @@ import { collection, getDocs, query, orderBy, doc, getDoc } from 'firebase/fires
 import { db } from '../infra/firebase'
 import styles from './Services.module.css'
 import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
-
-const WHATSAPP_NUMBER = '554198496829'
-
-function buildWhatsAppLink(serviceTitle) {
-  const message = `Olá! Tenho interesse no serviço "${serviceTitle}"`
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-}
+import { buildInterestLink } from '../config/site'
 
 export default function Servicos() {
   const [services, setServices] = useState([])
@@ -60,12 +54,17 @@ export default function Servicos() {
           {services.map((service) => (
             <a
               key={service.id}
-              href={buildWhatsAppLink(service.title)}
+              href={buildInterestLink('serviço', service.title)}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.card}
             >
-              <img src={optimizeCloudinaryUrl(service.image, 500)} alt={service.title} className={styles.image} />
+              <img
+                src={optimizeCloudinaryUrl(service.image, 500)}
+                alt={`${service.title} na Barbearia Arrumadinho, em Colombo - PR`}
+                className={styles.image}
+                loading="lazy"
+              />
 
               <div className={styles.hoverOverlay}>
                 <p className={styles.overlayDescription}>{service.description}</p>

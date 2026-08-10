@@ -3,13 +3,7 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import styles from './Products.module.css'
 import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
-
-const WHATSAPP_NUMBER = '554198496829'
-
-function buildWhatsAppLink(productTitle) {
-  const message = `Olá! Tenho interesse no produto "${productTitle}"`
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-}
+import { buildInterestLink } from '../config/site'
 
 export default function Products() {
   const [products, setProducts] = useState([])
@@ -51,7 +45,12 @@ export default function Products() {
         <div className={styles.grid}>
           {products.map((product) => (
             <div key={product.id} className={styles.card}>
-              <img src={optimizeCloudinaryUrl(product.image, 500)} alt={product.title} className={styles.image} loading="lazy" />
+              <img
+                src={optimizeCloudinaryUrl(product.image, 500)}
+                alt={`${product.title} — produto à venda na Barbearia Arrumadinho`}
+                className={styles.image}
+                loading="lazy"
+              />
 
               <div className={styles.hoverOverlay}>
                 <p className={styles.overlayDescription}>{product.description}</p>
@@ -61,7 +60,7 @@ export default function Products() {
                 <h3 className={styles.cardTitle}>{product.title}</h3>
                 <p className={styles.mobileDescription}>{product.description}</p>
                 <a
-                  href={buildWhatsAppLink(product.title)}
+                  href={buildInterestLink('produto', product.title)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.cardButton}

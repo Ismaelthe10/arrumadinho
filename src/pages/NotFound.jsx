@@ -9,6 +9,7 @@ export default function NotFound() {
         title="Página não encontrada | Barbearia Arrumadinho"
         description="A página que você procura não existe ou foi movida."
         noindex
+
       />
 
       <div className={styles.container}>

@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
-import { auth } from '../../infra/firebase.js'
+import { auth } from '../../infra/firebaseAuth.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import { AUTHORIZED_UIDS } from '../config/authorizedUsers.js'
 
