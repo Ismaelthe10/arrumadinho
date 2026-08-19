@@ -1,5 +1,7 @@
 # Barbearia Arrumadinho
 
+![Barbearia Arrumadinho](public/og-image.jpg)
+
 **English** · [Português](README.pt-BR.md)
 
 Marketing site and lightweight CMS for a barbershop and barber school in Colombo, Paraná, Brazil. Built as a freelance project for a real business — the client edits every section of the site from a private admin area, without a developer and without a redeploy.
