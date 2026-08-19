@@ -68,7 +68,7 @@ There is no backend of our own. The site is static files plus two managed servic
 git clone https://github.com/Ismaelthe10/arrumadinho.git
 cd arrumadinho
 npm install
-cp .env.example .env
+# create a .env file in the project root — see Environment variables below
 # fill in .env with your own Firebase and Cloudinary values
 npm run dev
 ```
