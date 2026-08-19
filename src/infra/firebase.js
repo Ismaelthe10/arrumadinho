@@ -2,6 +2,12 @@ import { initializeApp } from 'firebase/app'
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 import { getFirestore } from 'firebase/firestore'
 
+// # ATENÇÃO: tudo que começa com VITE_ é embutido no bundle JavaScript durante o
+// # build e fica visível para qualquer visitante do site. As variáveis acima são
+// # identificadores públicos de cliente, e isso é esperado. Nunca adicione aqui um
+// # segredo de verdade (API secret, service account, token privado) — esses
+// # pertencem a um ambiente de servidor.
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
