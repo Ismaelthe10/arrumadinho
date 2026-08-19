@@ -79,7 +79,7 @@ Você vai precisar de um projeto Firebase próprio (com Firestore habilitado) e 
 
 ## Variáveis de ambiente
 
-Copie o `.env.example` para `.env` e preencha. Todas são obrigatórias.
+Crie um arquivo .env na raiz do projeto. Todas as variáveis são obrigatórias.
 
 | Variável | Para que serve |
 |---|---|

@@ -79,7 +79,7 @@ You will need your own Firebase project (with Firestore enabled) and a Cloudinar
 
 ## Environment variables
 
-Copy `.env.example` to `.env` and fill it in. All variables are required.
+Create a .env file in the project root. All variables are required.
 
 | Variable | Purpose |
 |---|---|
