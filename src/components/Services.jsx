@@ -26,13 +26,7 @@ export default function Servicos() {
 
         <div className={styles.grid}>
           {services.map((service) => (
-            <a
-              key={service.id}
-              href={buildInterestLink('serviço', service.title)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.card}
-            >
+            <div key={service.id} className={styles.card}>
               <img
                 src={optimizeCloudinaryUrl(service.image, 500)}
                 srcSet={cloudinarySrcSet(service.image)}
@@ -49,8 +43,17 @@ export default function Servicos() {
               <div className={styles.bottomBar}>
                 <h3 className={styles.cardTitle}>{service.title}</h3>
                 <p className={styles.mobileDescription}>{service.description}</p>
+                <a
+                  href={buildInterestLink('serviço', service.title)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.cardButton}
+                  aria-label={`Tenho interesse no serviço ${service.title}`}
+                >
+                  Tenho interesse
+                </a>
               </div>
-            </a>
+            </div>
           ))}
         </div>
 
@@ -68,7 +71,14 @@ export default function Servicos() {
             <ul className={styles.extraGrid}>
               {extraServices.map((item, index) => (
                 <li key={`${item}-${index}`} className={styles.extraItem}>
-                  {item}
+                  <a
+                    href={buildInterestLink('serviço', item)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.extraLink}
+                  >
+                    {item}
+                  </a>
                 </li>
               ))}
             </ul>
