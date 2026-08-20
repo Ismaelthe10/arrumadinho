@@ -41,17 +41,18 @@ export default function Servicos() {
               </div>
 
               <div className={styles.bottomBar}>
-                <h3 className={styles.cardTitle}>{service.title}</h3>
+                <h3 className={styles.cardTitle}>
+                  <a
+                    href={buildInterestLink('serviço', service.title)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.cardButton}
+                    aria-label={`Tenho interesse no serviço ${service.title}`}
+                  >
+                    {service.title}
+                  </a>
+                </h3>
                 <p className={styles.mobileDescription}>{service.description}</p>
-                <a
-                  href={buildInterestLink('serviço', service.title)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.cardButton}
-                  aria-label={`Tenho interesse no serviço ${service.title}`}
-                >
-                  Tenho interesse
-                </a>
               </div>
             </div>
           ))}
