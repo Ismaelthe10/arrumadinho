@@ -14,7 +14,7 @@ export default function SpaceAdmin() {
   }
 
   function handleRemove(index) {
-    if (window.confirm('A ação irá remover a foto imediatamente. Deseja continuar?')) {
+    if (window.confirm('Remover esta foto? A remoção só vale depois de clicar em "Salvar alterações".')) {
       remove(index)
     }
   }

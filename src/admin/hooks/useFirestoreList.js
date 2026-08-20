@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useId, useState } from 'react'
 import {
   collection, getDocs, doc, setDoc, deleteDoc, query, orderBy,
 } from 'firebase/firestore'
 import { db } from '../../infra/firebase'
+import { useUnsavedChanges } from '../context/useUnsavedChanges'
 
 export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {}) {
   const [items, setItems] = useState([])
@@ -28,16 +29,15 @@ export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {
 
   useEffect(() => { load() }, [load])
 
-  // Avisa o usuário se tentar fechar/recarregar a aba com alterações não salvas
+  // Publica o estado sujo no provider, que centraliza o aviso de saída — tanto
+  // ao fechar a aba quanto ao trocar de seção pela sidebar.
+  const dirtyId = useId()
+  const { setDirtySource } = useUnsavedChanges()
+
   useEffect(() => {
-    if (!dirty) return
-    function handleBeforeUnload(e) {
-      e.preventDefault()
-      e.returnValue = ''
-    }
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
-  }, [dirty])
+    setDirtySource(dirtyId, dirty)
+    return () => setDirtySource(dirtyId, false)
+  }, [dirtyId, dirty, setDirtySource])
 
   function updateField(index, field, value) {
     setItems((prev) => prev.map((it, i) => (i === index ? { ...it, [field]: value } : it)))

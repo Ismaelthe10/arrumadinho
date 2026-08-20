@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useId, useState } from 'react'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '../../infra/firebase'
+import { useUnsavedChanges } from '../context/useUnsavedChanges'
 
 export function useFirestoreArrayDoc(pathSegments, fieldName, defaultItem) {
   const [items, setItems] = useState([])
@@ -26,16 +27,15 @@ export function useFirestoreArrayDoc(pathSegments, fieldName, defaultItem) {
 
   useEffect(() => { load() }, [load])
 
-  // Avisa o usuário se tentar fechar/recarregar a aba com alterações não salvas
+  // Publica o estado sujo no provider, que centraliza o aviso de saída — tanto
+  // ao fechar a aba quanto ao trocar de seção pela sidebar.
+  const dirtyId = useId()
+  const { setDirtySource } = useUnsavedChanges()
+
   useEffect(() => {
-    if (!dirty) return
-    function handleBeforeUnload(e) {
-      e.preventDefault()
-      e.returnValue = ''
-    }
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
-  }, [dirty])
+    setDirtySource(dirtyId, dirty)
+    return () => setDirtySource(dirtyId, false)
+  }, [dirtyId, dirty, setDirtySource])
 
   function setItem(index, value) {
     setItems((prev) => prev.map((it, i) => (i === index ? value : it)))

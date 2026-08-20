@@ -13,7 +13,7 @@ export default function ExtraServicesAdmin() {
   }
 
   function handleRemove(index) {
-    if (window.confirm('A ação irá remover o item da lista imediatamente. Deseja continuar?')) {
+    if (window.confirm('Remover este item da lista? A remoção só vale depois de clicar em "Salvar alterações".')) {
       remove(index)
     }
   }

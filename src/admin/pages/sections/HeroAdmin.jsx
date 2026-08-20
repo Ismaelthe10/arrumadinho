@@ -14,7 +14,7 @@ export default function HeroAdmin() {
   }
 
   function handleRemove(index) {
-    if (window.confirm('A ação irá remover a imagem do carrossel imediatamente. Deseja continuar?')) {
+    if (window.confirm('Remover esta imagem do carrossel? A remoção só vale depois de clicar em "Salvar alterações".')) {
       remove(index)
     }
   }

@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { lazy } from 'react'
 
 import { AuthProvider } from './context/AuthContext.jsx'
+import { UnsavedChangesProvider } from './context/UnsavedChangesProvider.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import AdminLayout from './components/AdminLayout.jsx'
 import DashboardLayout from './components/DashboardLayout.jsx'
@@ -23,27 +24,29 @@ const SpaceAdmin = lazy(() => import('./pages/sections/SpaceAdmin.jsx'))
 export default function AdminApp() {
   return (
     <AuthProvider>
-      <Routes>
-        <Route element={<AdminLayout />}>
-          <Route index element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="login" element={<AdminLogin />} />
-          <Route
-            path="dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate to="/admin/dashboard/hero" replace />} />
-            <Route path="hero" element={<HeroAdmin />} />
-            <Route path="servicos" element={<ServicesAdmin />} />
-            <Route path="produtos" element={<ProductsAdmin />} />
-            <Route path="cursos" element={<CoursesAdmin />} />
-            <Route path="espaco" element={<SpaceAdmin />} />
+      <UnsavedChangesProvider>
+        <Routes>
+          <Route element={<AdminLayout />}>
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="login" element={<AdminLogin />} />
+            <Route
+              path="dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="/admin/dashboard/hero" replace />} />
+              <Route path="hero" element={<HeroAdmin />} />
+              <Route path="servicos" element={<ServicesAdmin />} />
+              <Route path="produtos" element={<ProductsAdmin />} />
+              <Route path="cursos" element={<CoursesAdmin />} />
+              <Route path="espaco" element={<SpaceAdmin />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </UnsavedChangesProvider>
     </AuthProvider>
   )
 }
