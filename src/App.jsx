@@ -3,11 +3,16 @@ import { Suspense, lazy } from 'react'
 
 import Layout from './components/Layout.jsx'
 import Home from './pages/Home.jsx'
-import Courses from './pages/Courses.jsx'
-import About from './pages/About.jsx'
-import PoliticaPrivacidade from './pages/PoliticaPrivacidade.jsx'
-import TermosDeUso from './pages/TermosDeUso.jsx'
-import NotFound from './pages/NotFound.jsx'
+import { routeImporters } from './routes/lazyRoutes.js'
+
+// Só a Home entra no bundle inicial. As demais rotas viram chunks separados,
+// buscados apenas quando o visitante navega até elas — a maioria das sessões
+// entra pela home e nunca baixa Cursos, Sobre ou as páginas legais.
+const Courses = lazy(routeImporters['/cursos'])
+const About = lazy(routeImporters['/sobre'])
+const PoliticaPrivacidade = lazy(routeImporters['/politica-de-privacidade'])
+const TermosDeUso = lazy(routeImporters['/termos-de-uso'])
+const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 
 // Todo o painel é carregado sob demanda: o visitante do site público nunca baixa
 // o Firebase Auth nem o código do admin.

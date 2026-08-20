@@ -1,44 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react'
-import { collection, getDocs, query, orderBy, doc, getDoc } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { useCachedContent } from '../hooks/useCachedContent'
+import { fetchMainServices, fetchExtraServices } from '../infra/publicContent'
 import styles from './Services.module.css'
-import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
+import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
 import { buildInterestLink } from '../config/site'
 
+// 3 colunas de 1200 - 48 de padding, com 24 de gap, no desktop.
+const SERVICE_SIZES = '(min-width: 768px) 368px, calc(100vw - 48px)'
+
 export default function Servicos() {
-  const [services, setServices] = useState([])
-  const [extraServices, setExtraServices] = useState([])
+  const services = useCachedContent('mainServices', fetchMainServices, [])
+  const extraServices = useCachedContent('extraServices', fetchExtraServices, [])
   const [showMore, setShowMore] = useState(false)
-
-  useEffect(() => {
-    let mounted = true
-
-    async function loadData() {
-      try {
-        const servicesQuery = query(collection(db, 'mainServices'), orderBy('order'))
-        const servicesSnap = await getDocs(servicesQuery)
-
-        const extraRef = doc(db, 'services', 'extra')
-        const extraSnap = await getDoc(extraRef)
-
-        if (!mounted) return
-
-        setServices(servicesSnap.docs.map((d) => ({ id: d.id, ...d.data() })))
-
-        const extraData = extraSnap.exists() ? extraSnap.data() : null
-        setExtraServices(Array.isArray(extraData?.extraServices) ? extraData.extraServices : [])
-      } catch (err) {
-        console.error('Erro ao carregar serviços:', err)
-      }
-    }
-
-    loadData()
-
-    return () => {
-      mounted = false
-    }
-  }, [])
 
   return (
     <section id="servicos" className="section-dark">
@@ -52,15 +26,11 @@ export default function Servicos() {
 
         <div className={styles.grid}>
           {services.map((service) => (
-            <a
-              key={service.id}
-              href={buildInterestLink('serviço', service.title)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.card}
-            >
+            <div key={service.id} className={styles.card}>
               <img
                 src={optimizeCloudinaryUrl(service.image, 500)}
+                srcSet={cloudinarySrcSet(service.image)}
+                sizes={SERVICE_SIZES}
                 alt={`${service.title} na Barbearia Arrumadinho, em Colombo - PR`}
                 className={styles.image}
                 loading="lazy"
@@ -71,10 +41,20 @@ export default function Servicos() {
               </div>
 
               <div className={styles.bottomBar}>
-                <h3 className={styles.cardTitle}>{service.title}</h3>
+                <h3 className={styles.cardTitle}>
+                  <a
+                    href={buildInterestLink('serviço', service.title)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.cardButton}
+                    aria-label={`Tenho interesse no serviço ${service.title}`}
+                  >
+                    {service.title}
+                  </a>
+                </h3>
                 <p className={styles.mobileDescription}>{service.description}</p>
               </div>
-            </a>
+            </div>
           ))}
         </div>
 
@@ -92,7 +72,14 @@ export default function Servicos() {
             <ul className={styles.extraGrid}>
               {extraServices.map((item, index) => (
                 <li key={`${item}-${index}`} className={styles.extraItem}>
-                  {item}
+                  <a
+                    href={buildInterestLink('serviço', item)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.extraLink}
+                  >
+                    {item}
+                  </a>
                 </li>
               ))}
             </ul>

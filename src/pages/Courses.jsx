@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { CheckCircleFillIcon, ZapIcon, PeopleIcon, MortarBoardIcon, CreditCardIcon } from '@primer/octicons-react'
-import { collection, getDocs, query, orderBy } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { useCachedContent } from '../hooks/useCachedContent'
+import { fetchCourses } from '../infra/publicContent'
 import Seo from '../components/Seo'
 import Faq from '../components/Faq.jsx'
 import { COURSES_FAQ, buildFaqJsonLd } from '../content/faq'
@@ -34,30 +34,7 @@ const features = [
 ]
 
 export default function Courses() {
-  const [courses, setCourses] = useState([])
-
-  useEffect(() => {
-    let mounted = true
-
-    async function loadCourses() {
-      try {
-        const q = query(collection(db, 'courses'), orderBy('order'))
-        const snap = await getDocs(q)
-
-        if (!mounted) return
-
-        setCourses(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
-      } catch (err) {
-        console.error('Erro ao carregar cursos:', err)
-      }
-    }
-
-    loadCourses()
-
-    return () => {
-      mounted = false
-    }
-  }, [])
+  const courses = useCachedContent('courses', fetchCourses, [])
 
   // O rich result de lista de cursos do Google exige no mínimo 3 cursos, e cada
   // um precisa de name e description não vazios — abaixo disso a marcação é

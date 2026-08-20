@@ -10,6 +10,11 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
 
+    <!-- Imagem LCP do Hero. Sem este preload ela só é descoberta depois que o
+         bundle React baixa, faz parse e renderiza — atrasando o maior elemento
+         visível em toda a duração do carregamento do JS. -->
+    <link rel="preload" as="image" href="/hero/foto-15.webp" fetchpriority="high" />
+
     <link rel="preconnect" href="https://res.cloudinary.com" />
     <link rel="dns-prefetch" href="https://res.cloudinary.com" />
     <link rel="preconnect" href="https://firestore.googleapis.com" />

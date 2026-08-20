@@ -1,43 +1,34 @@
 import { useEffect, useState } from 'react'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { useCachedContent } from '../hooks/useCachedContent'
+import { fetchHeroImages } from '../infra/publicContent'
 import styles from './Hero.module.css'
-import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
+import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
 import { SCHEDULING_LINK } from '../config/site'
 
+const ROTATION_MS = 4000
+
+// A foto seguinte entra no DOM 1,5 s antes da troca: tempo de sobra para baixar
+// e decodificar, sem disputar banda com o LCP no instante do carregamento.
+const PRELOAD_LEAD_MS = ROTATION_MS - 1500
+
+// Coluna direita do grid: metade de 1200 - 48 de padding - 40 de gap no desktop,
+// largura total menos o padding no mobile.
+const HERO_SIZES = '(min-width: 768px) 556px, calc(100vw - 48px)'
+
 export default function Hero() {
-  const [heroImages, setHeroImages] = useState([])
+  const heroImages = useCachedContent('hero', fetchHeroImages, [])
   const [current, setCurrent] = useState(0)
 
+  // O placeholder segue montado sempre: ele faz o cross-fade de 1 s com a
+  // primeira foto e, em visitas repetidas, vem do cache de disco do navegador.
   const [renderedIndices, setRenderedIndices] = useState(new Set([0]))
 
   useEffect(() => {
-    let mounted = true
-
-    async function loadImages() {
-      try {
-        const ref = doc(db, 'hero', 'carousel')
-        const snap = await getDoc(ref)
-
-        if (!mounted) return
-
-        const data = snap.exists() ? snap.data() : null
-        setHeroImages(Array.isArray(data?.images) ? data.images : [])
-      } catch (err) {
-        console.error('Erro ao carregar imagens do Hero:', err)
-      }
-    }
-
-    loadImages()
-
-    return () => {
-      mounted = false
-    }
-  }, [])
-
-  useEffect(() => {
     if (heroImages.length <= 1) return
-    setRenderedIndices((prev) => new Set(prev).add(1 % heroImages.length))
+    const timeout = setTimeout(() => {
+      setRenderedIndices((prev) => new Set(prev).add(1 % heroImages.length))
+    }, PRELOAD_LEAD_MS)
+    return () => clearTimeout(timeout)
   }, [heroImages])
 
   useEffect(() => {
@@ -49,7 +40,7 @@ export default function Hero() {
         setRenderedIndices((r) => new Set(r).add(upcoming))
         return next
       })
-    }, 4000)
+    }, ROTATION_MS)
     return () => clearInterval(interval)
   }, [heroImages])
 
@@ -92,6 +83,8 @@ export default function Hero() {
               <img
                 key={image.src}
                 src={optimizeCloudinaryUrl(image.src, 1200)}
+                srcSet={cloudinarySrcSet(image.src)}
+                sizes={HERO_SIZES}
                 alt={image.alt}
                 className={styles.image}
                 style={{ opacity: index === current ? 1 : 0 }}

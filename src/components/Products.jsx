@@ -1,35 +1,14 @@
-import { useEffect, useState } from 'react'
-import { collection, getDocs, query, orderBy } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { useCachedContent } from '../hooks/useCachedContent'
+import { fetchProducts } from '../infra/publicContent'
 import styles from './Products.module.css'
-import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
+import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
 import { buildInterestLink } from '../config/site'
 
+// 4 colunas no desktop, 2 no tablet, 1 no celular.
+const PRODUCT_SIZES = '(min-width: 1024px) 270px, (min-width: 640px) 45vw, calc(100vw - 48px)'
+
 export default function Products() {
-  const [products, setProducts] = useState([])
-
-  useEffect(() => {
-    let mounted = true
-
-    async function loadProducts() {
-      try {
-        const q = query(collection(db, 'products'), orderBy('order'))
-        const snap = await getDocs(q)
-
-        if (!mounted) return
-
-        setProducts(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
-      } catch (err) {
-        console.error('Erro ao carregar produtos:', err)
-      }
-    }
-
-    loadProducts()
-
-    return () => {
-      mounted = false
-    }
-  }, [])
+  const products = useCachedContent('products', fetchProducts, [])
 
   return (
     <section id="produtos" className={`section-light ${styles.section}`}>
@@ -47,6 +26,8 @@ export default function Products() {
             <div key={product.id} className={styles.card}>
               <img
                 src={optimizeCloudinaryUrl(product.image, 500)}
+                srcSet={cloudinarySrcSet(product.image)}
+                sizes={PRODUCT_SIZES}
                 alt={`${product.title} — produto à venda na Barbearia Arrumadinho`}
                 className={styles.image}
                 loading="lazy"
