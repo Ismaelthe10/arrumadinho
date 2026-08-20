@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react'
-import { collection, getDocs, query, orderBy, doc, getDoc } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { useCachedContent } from '../hooks/useCachedContent'
+import { fetchMainServices, fetchExtraServices } from '../infra/publicContent'
 import styles from './Services.module.css'
 import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
 import { buildInterestLink } from '../config/site'
@@ -10,38 +10,9 @@ import { buildInterestLink } from '../config/site'
 const SERVICE_SIZES = '(min-width: 768px) 368px, calc(100vw - 48px)'
 
 export default function Servicos() {
-  const [services, setServices] = useState([])
-  const [extraServices, setExtraServices] = useState([])
+  const services = useCachedContent('mainServices', fetchMainServices, [])
+  const extraServices = useCachedContent('extraServices', fetchExtraServices, [])
   const [showMore, setShowMore] = useState(false)
-
-  useEffect(() => {
-    let mounted = true
-
-    async function loadData() {
-      try {
-        const servicesQuery = query(collection(db, 'mainServices'), orderBy('order'))
-        const servicesSnap = await getDocs(servicesQuery)
-
-        const extraRef = doc(db, 'services', 'extra')
-        const extraSnap = await getDoc(extraRef)
-
-        if (!mounted) return
-
-        setServices(servicesSnap.docs.map((d) => ({ id: d.id, ...d.data() })))
-
-        const extraData = extraSnap.exists() ? extraSnap.data() : null
-        setExtraServices(Array.isArray(extraData?.extraServices) ? extraData.extraServices : [])
-      } catch (err) {
-        console.error('Erro ao carregar serviços:', err)
-      }
-    }
-
-    loadData()
-
-    return () => {
-      mounted = false
-    }
-  }, [])
 
   return (
     <section id="servicos" className="section-dark">

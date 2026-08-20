@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { useCachedContent } from '../hooks/useCachedContent'
+import { fetchSpacePhotos } from '../infra/publicContent'
 import styles from './Space.module.css'
 import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
 
@@ -8,31 +7,7 @@ import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
 const SPACE_SIZES = '(min-width: 1024px) 373px, (min-width: 640px) 45vw, calc(100vw - 48px)'
 
 export default function Space() {
-  const [spacePhotos, setSpacePhotos] = useState([])
-
-  useEffect(() => {
-    let mounted = true
-
-    async function loadPhotos() {
-      try {
-        const ref = doc(db, 'space', 'gallery')
-        const snap = await getDoc(ref)
-
-        if (!mounted) return
-
-        const data = snap.exists() ? snap.data() : null
-        setSpacePhotos(Array.isArray(data?.photos) ? data.photos : [])
-      } catch (err) {
-        console.error('Erro ao carregar fotos do espaço:', err)
-      }
-    }
-
-    loadPhotos()
-
-    return () => {
-      mounted = false
-    }
-  }, [])
+  const spacePhotos = useCachedContent('space', fetchSpacePhotos, [])
 
   return (
     <section id="espaco" className="section-dark">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { useCachedContent } from '../hooks/useCachedContent'
+import { fetchHeroImages } from '../infra/publicContent'
 import styles from './Hero.module.css'
 import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
 import { SCHEDULING_LINK } from '../config/site'
@@ -16,34 +16,12 @@ const PRELOAD_LEAD_MS = ROTATION_MS - 1500
 const HERO_SIZES = '(min-width: 768px) 556px, calc(100vw - 48px)'
 
 export default function Hero() {
-  const [heroImages, setHeroImages] = useState([])
+  const heroImages = useCachedContent('hero', fetchHeroImages, [])
   const [current, setCurrent] = useState(0)
 
+  // O placeholder segue montado sempre: ele faz o cross-fade de 1 s com a
+  // primeira foto e, em visitas repetidas, vem do cache de disco do navegador.
   const [renderedIndices, setRenderedIndices] = useState(new Set([0]))
-
-  useEffect(() => {
-    let mounted = true
-
-    async function loadImages() {
-      try {
-        const ref = doc(db, 'hero', 'carousel')
-        const snap = await getDoc(ref)
-
-        if (!mounted) return
-
-        const data = snap.exists() ? snap.data() : null
-        setHeroImages(Array.isArray(data?.images) ? data.images : [])
-      } catch (err) {
-        console.error('Erro ao carregar imagens do Hero:', err)
-      }
-    }
-
-    loadImages()
-
-    return () => {
-      mounted = false
-    }
-  }, [])
 
   useEffect(() => {
     if (heroImages.length <= 1) return

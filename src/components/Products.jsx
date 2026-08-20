@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
-import { collection, getDocs, query, orderBy } from 'firebase/firestore'
-import { db } from '../infra/firebase'
+import { useCachedContent } from '../hooks/useCachedContent'
+import { fetchProducts } from '../infra/publicContent'
 import styles from './Products.module.css'
 import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
 import { buildInterestLink } from '../config/site'
@@ -9,30 +8,7 @@ import { buildInterestLink } from '../config/site'
 const PRODUCT_SIZES = '(min-width: 1024px) 270px, (min-width: 640px) 45vw, calc(100vw - 48px)'
 
 export default function Products() {
-  const [products, setProducts] = useState([])
-
-  useEffect(() => {
-    let mounted = true
-
-    async function loadProducts() {
-      try {
-        const q = query(collection(db, 'products'), orderBy('order'))
-        const snap = await getDocs(q)
-
-        if (!mounted) return
-
-        setProducts(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
-      } catch (err) {
-        console.error('Erro ao carregar produtos:', err)
-      }
-    }
-
-    loadProducts()
-
-    return () => {
-      mounted = false
-    }
-  }, [])
+  const products = useCachedContent('products', fetchProducts, [])
 
   return (
     <section id="produtos" className={`section-light ${styles.section}`}>
