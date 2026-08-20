@@ -4,6 +4,7 @@ import { XIcon, ThreeBarsIcon } from '@primer/octicons-react'
 import WhatsAppIcon from './icons/WhatsAppIcon.jsx'
 import InstagramIcon from './icons/InstagramIcon.jsx'
 import styles from './Header.module.css'
+import { prefetchProps } from '../routes/lazyRoutes'
 import { BUSINESS_NAME, INSTAGRAM, SCHEDULING_LINK } from '../config/site'
 
 const navLinks = [
@@ -35,7 +36,7 @@ export default function Header() {
         {/* Navegação — centro, só desktop */}
         <nav className={styles.nav} aria-label="Menu principal">
           {navLinks.map((link) => (
-            <Link key={link.href} to={link.href} className={styles.navLink}>
+            <Link key={link.href} to={link.href} className={styles.navLink} {...prefetchProps(link.href)}>
               {link.label}
             </Link>
           ))}
@@ -72,7 +73,7 @@ export default function Header() {
       {menuOpen && (
         <nav className={styles.mobileMenu} aria-label="Menu mobile">
           {navLinks.map((link) => (
-            <Link key={link.href} to={link.href} className={styles.mobileLink} onClick={closeMenu}>
+            <Link key={link.href} to={link.href} className={styles.mobileLink} onClick={closeMenu} {...prefetchProps(link.href)}>
               {link.label}
             </Link>
           ))}

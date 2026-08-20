@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { LocationIcon, ClockIcon } from '@primer/octicons-react'
 import WhatsAppIcon from './icons/WhatsAppIcon.jsx'
 import InstagramIcon from './icons/InstagramIcon.jsx'
+import { prefetchProps } from '../routes/lazyRoutes'
 import styles from './Footer.module.css'
 
 import {
@@ -38,7 +39,7 @@ export default function Footer() {
             <ul className={styles.linkList}>
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link to={link.href} className={styles.link}>{link.label}</Link>
+                  <Link to={link.href} className={styles.link} {...prefetchProps(link.href)}>{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -89,7 +90,7 @@ export default function Footer() {
           </p>
           <div className={styles.legalLinks}>
             {legalLinks.map((link) => (
-              <Link key={link.href} to={link.href} className={styles.legalLink}>
+              <Link key={link.href} to={link.href} className={styles.legalLink} {...prefetchProps(link.href)}>
                 {link.label}
               </Link>
             ))}
