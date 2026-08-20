@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { XIcon, ThreeBarsIcon } from '@primer/octicons-react'
 import WhatsAppIcon from './icons/WhatsAppIcon.jsx'
 import InstagramIcon from './icons/InstagramIcon.jsx'
@@ -27,16 +28,16 @@ export default function Header() {
     <header className={`section-dark ${styles.header}`}>
       <div className={styles.bar}>
         {/* Logo — esquerda */}
-        <a href="/" className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <img src="/logo.svg" alt={BUSINESS_NAME} className={styles.logoImg} />
-        </a>
+        </Link>
 
         {/* Navegação — centro, só desktop */}
         <nav className={styles.nav} aria-label="Menu principal">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className={styles.navLink}>
+            <Link key={link.href} to={link.href} className={styles.navLink}>
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -71,9 +72,9 @@ export default function Header() {
       {menuOpen && (
         <nav className={styles.mobileMenu} aria-label="Menu mobile">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className={styles.mobileLink} onClick={closeMenu}>
+            <Link key={link.href} to={link.href} className={styles.mobileLink} onClick={closeMenu}>
               {link.label}
-            </a>
+            </Link>
           ))}
 
           <div className={styles.mobileSocial}>
