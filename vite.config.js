@@ -14,7 +14,7 @@ function applyMeta(html, { title, description, canonical, robots }) {
   const t = escapeAttr(title)
   const d = escapeAttr(description)
 
-  let out = html
+  const out = html
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeText(title)}</title>`)
     .replace(/(<meta name="description" content=")[^"]*(")/, `$1${d}$2`)
     .replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${t}$2`)
@@ -36,6 +36,26 @@ function applyMeta(html, { title, description, canonical, robots }) {
   return out
     .replace(/\s*<link rel="canonical" href="[^"]*"[^>]*>/, '')
     .replace(/\s*<meta property="og:url" content="[^"]*"[^>]*>/, '')
+}
+
+function buildSitemap() {
+  // Gerado das mesmas rotas do <Seo>, para não poder divergir delas.
+  //
+  // Sem <lastmod>, <changefreq> e <priority> de propósito: o Google ignora os
+  // dois últimos, e só usa lastmod quando ele é comprovadamente exato. O build
+  // não sabe quando o conteúdo de cada página mudou de verdade, e data
+  // inventada faz o Google desconfiar do arquivo inteiro.
+  const urls = Object.values(ROUTE_META)
+    .map((route) => `  <url><loc>${SITE_URL}${route.path}</loc></url>`)
+    .join('\n')
+
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    urls,
+    '</urlset>',
+    '',
+  ].join('\n')
 }
 
 /**
@@ -89,9 +109,11 @@ function prerenderRouteMeta() {
         ...NOT_FOUND_META,
         robots: 'noindex, nofollow',
       }))
-      written.push('404')
 
-      this.info?.(`meta por rota gravada em: ${written.join(', ')}`)
+      writeFileSync(join(root, 'sitemap.xml'), buildSitemap())
+
+      written.push('404', 'sitemap.xml')
+      this.info?.(`gerado por rota: ${written.join(', ')}`)
     },
   }
 }
