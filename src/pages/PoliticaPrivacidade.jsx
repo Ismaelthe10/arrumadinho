@@ -60,7 +60,10 @@ export default function PoliticaPrivacidade() {
               automatizados e uso indevido do site;
             </li>
             <li>
-              <strong>Vercel</strong> — hospedagem e entrega do site.
+              <strong>Vercel</strong> — hospedagem e entrega do site, e
+              medição anônima de audiência (quantas visitas cada página
+              recebe). Essa medição não utiliza cookies, não identifica você
+              e não acompanha sua navegação em outros sites.
             </li>
           </ul>
           <p>
@@ -72,7 +75,8 @@ export default function PoliticaPrivacidade() {
           <h2>4. Cookies</h2>
           <p>
             Este site não utiliza cookies de publicidade ou rastreamento
-            próprios. Alguns dos serviços listados no item 3 — em especial o
+            próprios, e a medição de audiência citada no item 3 também não
+            usa cookies. Alguns dos serviços listados no item 3 — em especial o
             Google Maps e o Google reCAPTCHA — podem definir cookies do
             próprio Google, necessários para seu funcionamento (exibir o
             mapa e proteger o site contra abuso automatizado). Você pode
