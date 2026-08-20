@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import styles from './Space.module.css'
-import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
+import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
+
+// 3 colunas no desktop, 2 no tablet, 1 no celular.
+const SPACE_SIZES = '(min-width: 1024px) 373px, (min-width: 640px) 45vw, calc(100vw - 48px)'
 
 export default function Space() {
   const [spacePhotos, setSpacePhotos] = useState([])
@@ -41,6 +44,8 @@ export default function Space() {
             <div key={`${photo}-${index}`} className={styles.photoWrapper}>
               <img
                 src={optimizeCloudinaryUrl(photo, 600)}
+                srcSet={cloudinarySrcSet(photo)}
+                sizes={SPACE_SIZES}
                 alt={`Ambiente da Barbearia Arrumadinho em Colombo - PR (foto ${index + 1})`}
                 className={styles.photo}
                 loading="lazy"

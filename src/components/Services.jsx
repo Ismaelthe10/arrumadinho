@@ -3,8 +3,11 @@ import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react'
 import { collection, getDocs, query, orderBy, doc, getDoc } from 'firebase/firestore'
 import { db } from '../infra/firebase'
 import styles from './Services.module.css'
-import { optimizeCloudinaryUrl } from '../utils/cloudinaryUrl'
+import { optimizeCloudinaryUrl, cloudinarySrcSet } from '../utils/cloudinaryUrl'
 import { buildInterestLink } from '../config/site'
+
+// 3 colunas de 1200 - 48 de padding, com 24 de gap, no desktop.
+const SERVICE_SIZES = '(min-width: 768px) 368px, calc(100vw - 48px)'
 
 export default function Servicos() {
   const [services, setServices] = useState([])
@@ -61,6 +64,8 @@ export default function Servicos() {
             >
               <img
                 src={optimizeCloudinaryUrl(service.image, 500)}
+                srcSet={cloudinarySrcSet(service.image)}
+                sizes={SERVICE_SIZES}
                 alt={`${service.title} na Barbearia Arrumadinho, em Colombo - PR`}
                 className={styles.image}
                 loading="lazy"
