@@ -3,8 +3,15 @@ import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '../../infra/firebase'
 import { useUnsavedChanges } from '../context/useUnsavedChanges'
 
+// Identidade apenas de renderização. Os itens persistidos não têm id — o site
+// público lê `photos` como array de strings e `images` como array de {src,alt} —
+// então a chave de lista não pode sair do dado sem quebrar esse contrato. Ela
+// vive aqui, e `values` e `keys` compartilham um único objeto de estado para
+// que não exista caminho em que saiam de sincronia.
+const newKey = () => crypto.randomUUID()
+
 export function useFirestoreArrayDoc(pathSegments, fieldName, defaultItem) {
-  const [items, setItems] = useState([])
+  const [{ values: items, keys }, setList] = useState({ values: [], keys: [] })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
@@ -16,7 +23,8 @@ export function useFirestoreArrayDoc(pathSegments, fieldName, defaultItem) {
     try {
       const ref = doc(db, ...pathSegments)
       const snap = await getDoc(ref)
-      setItems(snap.exists() ? snap.data()[fieldName] || [] : [])
+      const loaded = snap.exists() ? snap.data()[fieldName] || [] : []
+      setList({ values: loaded, keys: loaded.map(newKey) })
       setDirty(false)
     } catch (err) {
       setError('Erro ao carregar: ' + err.message)
@@ -37,33 +45,49 @@ export function useFirestoreArrayDoc(pathSegments, fieldName, defaultItem) {
     return () => setDirtySource(dirtyId, false)
   }, [dirtyId, dirty, setDirtySource])
 
+  // Edições preservam a chave: é o mesmo item, com outro conteúdo.
   function setItem(index, value) {
-    setItems((prev) => prev.map((it, i) => (i === index ? value : it)))
+    setList((prev) => ({
+      ...prev,
+      values: prev.values.map((it, i) => (i === index ? value : it)),
+    }))
     setDirty(true)
   }
 
   function updateField(index, field, value) {
-    setItems((prev) => prev.map((it, i) => (i === index ? { ...it, [field]: value } : it)))
+    setList((prev) => ({
+      ...prev,
+      values: prev.values.map((it, i) => (i === index ? { ...it, [field]: value } : it)),
+    }))
     setDirty(true)
   }
 
   function add() {
-    setItems((prev) => [...prev, typeof defaultItem === 'function' ? defaultItem() : defaultItem])
+    setList((prev) => ({
+      values: [...prev.values, typeof defaultItem === 'function' ? defaultItem() : defaultItem],
+      keys: [...prev.keys, newKey()],
+    }))
     setDirty(true)
   }
 
   function remove(index) {
-    setItems((prev) => prev.filter((_, i) => i !== index))
+    setList((prev) => ({
+      values: prev.values.filter((_, i) => i !== index),
+      keys: prev.keys.filter((_, i) => i !== index),
+    }))
     setDirty(true)
   }
 
   function move(index, direction) {
-    setItems((prev) => {
+    setList((prev) => {
       const newIndex = index + direction
-      if (newIndex < 0 || newIndex >= prev.length) return prev
-      const copy = [...prev]
-      ;[copy[index], copy[newIndex]] = [copy[newIndex], copy[index]]
-      return copy
+      if (newIndex < 0 || newIndex >= prev.values.length) return prev
+
+      const values = [...prev.values]
+      const keys = [...prev.keys]
+      ;[values[index], values[newIndex]] = [values[newIndex], values[index]]
+      ;[keys[index], keys[newIndex]] = [keys[newIndex], keys[index]]
+      return { values, keys }
     })
     setDirty(true)
   }
@@ -86,5 +110,5 @@ export function useFirestoreArrayDoc(pathSegments, fieldName, defaultItem) {
     }
   }
 
-  return { items, loading, saving, error, successMsg, dirty, setItem, updateField, add, remove, move, save }
+  return { items, keys, loading, saving, error, successMsg, dirty, setItem, updateField, add, remove, move, save }
 }

@@ -4,7 +4,7 @@ import styles from './ServicesAdmin.module.css'
 
 export default function ExtraServicesAdmin() {
   const {
-    items: extraServices, loading, saving, error, successMsg,
+    items: extraServices, keys, loading, saving, error, successMsg,
     setItem, add, remove, save,
   } = useFirestoreArrayDoc(['services', 'extra'], 'extraServices', '')
 
@@ -32,7 +32,7 @@ export default function ExtraServicesAdmin() {
       ) : (
         <div className={styles.extraList}>
           {extraServices.map((item, index) => (
-            <div key={index} className={styles.extraItem}>
+            <div key={keys[index]} className={styles.extraItem}>
               <input type="text" value={item} onChange={(e) => setItem(index, e.target.value)} className={styles.input} placeholder="Ex: Sobrancelha" />
               <button type="button" onClick={() => handleRemove(index)} className={styles.iconButtonDanger} aria-label="Remover item" title="Remover item">
                 <TrashIcon size={16} />
