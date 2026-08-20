@@ -3,6 +3,7 @@ import { CheckCircleFillIcon, ZapIcon, PeopleIcon, MortarBoardIcon, CreditCardIc
 import { useCachedContent } from '../hooks/useCachedContent'
 import { fetchCourses } from '../infra/publicContent'
 import Seo from '../components/Seo'
+import { ROUTE_META } from '../config/routeMeta'
 import Faq from '../components/Faq.jsx'
 import { COURSES_FAQ, buildFaqJsonLd } from '../content/faq'
 import styles from './Courses.module.css'
@@ -83,12 +84,7 @@ export default function Courses() {
 
   return (
     <>
-      <Seo
-        title="Curso de Barbeiro em Colombo e Curitiba - PR | Barbearia Arrumadinho"
-        description="Cursos profissionais de barbeiro em Colombo/PR, atendendo toda a região de Curitiba: do iniciante ao avançado, com prática intensiva e certificação."
-        path="/cursos"
-        jsonLd={pageJsonLd}
-      />
+      <Seo {...ROUTE_META.courses} jsonLd={pageJsonLd} />
       {/* Hero com curso-2 de fundo */}
       <section className={styles.hero}>
         <img

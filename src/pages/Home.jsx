@@ -6,6 +6,7 @@ import Space from '../components/Space.jsx'
 import GoogleReviews from '../components/GoogleReviews.jsx'
 import Faq from '../components/Faq.jsx'
 import Seo from '../components/Seo'
+import { ROUTE_META } from '../config/routeMeta'
 import { HOME_FAQ, buildFaqJsonLd } from '../content/faq'
 
 const faqJsonLd = buildFaqJsonLd(HOME_FAQ)
@@ -13,12 +14,7 @@ const faqJsonLd = buildFaqJsonLd(HOME_FAQ)
 export default function Home() {
   return (
     <>
-        <Seo
-          title="Barbearia em Colombo - PR | Barbearia Arrumadinho"
-          description="Barbearia em Colombo/PR desde 2017. Corte de cabelo, barba e colorimetria no bairro Guarani, com profissionais experientes. Agende pelo WhatsApp."
-          path="/"
-          jsonLd={faqJsonLd}
-        />
+        <Seo {...ROUTE_META.home} jsonLd={faqJsonLd} />
         <Hero />
         <Services />
         <Products />

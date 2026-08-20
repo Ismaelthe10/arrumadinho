@@ -1,14 +1,11 @@
 import Seo from '../components/Seo'
+import { ROUTE_META } from '../config/routeMeta'
 import styles from './About.module.css'
 
 export default function About() {
   return (
     <section className="section-light">
-      <Seo
-        title="Nossa História | Barbearia Arrumadinho — Colombo/PR"
-        description="A história da Barbearia Arrumadinho, em Colombo/PR: fundada em 2017 por Dirceu Soltoski e conduzida desde 2024 por Allan Tortato."
-        path="/sobre"
-      />
+      <Seo {...ROUTE_META.about} />
       <div className={styles.container}>
         <h1 className={styles.title}>Nossa História</h1>
 
