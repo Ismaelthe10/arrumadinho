@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../infra/firebaseAuth'
-import { useAuth } from '../context/AuthContext.jsx'
+import { useAuth } from '../context/useAuth.js'
 import { useNavigationGuard } from '../context/useUnsavedChanges'
 import styles from './AdminHeader.module.css'
 

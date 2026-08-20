@@ -13,18 +13,19 @@ export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {
   const [successMsg, setSuccessMsg] = useState(null)
   const [dirty, setDirty] = useState(false)
 
-  const load = useCallback(async () => {
-    setLoading(true)
-    try {
-      const q = query(collection(db, collectionName), orderBy('order'))
-      const snap = await getDocs(q)
-      setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
-      setDirty(false)
-    } catch (err) {
-      setError('Erro ao carregar: ' + err.message)
-    } finally {
-      setLoading(false)
-    }
+  // Cadeia de promessa em vez de async/await: assim todo setState acontece
+  // dentro de callback, e não no corpo síncrono de um efeito.
+  //
+  // Não há setLoading(true) aqui — `loading` já nasce true, e o reload após
+  // saveOne não deve trocar a lista inteira por "Carregando...".
+  const load = useCallback(() => {
+    return getDocs(query(collection(db, collectionName), orderBy('order')))
+      .then((snap) => {
+        setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
+        setDirty(false)
+      })
+      .catch((err) => setError('Erro ao carregar: ' + err.message))
+      .finally(() => setLoading(false))
   }, [collectionName])
 
   useEffect(() => { load() }, [load])

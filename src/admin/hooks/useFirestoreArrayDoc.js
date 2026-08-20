@@ -18,20 +18,25 @@ export function useFirestoreArrayDoc(pathSegments, fieldName, defaultItem) {
   const [successMsg, setSuccessMsg] = useState(null)
   const [dirty, setDirty] = useState(false)
 
-  const load = useCallback(async () => {
-    setLoading(true)
-    try {
-      const ref = doc(db, ...pathSegments)
-      const snap = await getDoc(ref)
-      const loaded = snap.exists() ? snap.data()[fieldName] || [] : []
-      setList({ values: loaded, keys: loaded.map(newKey) })
-      setDirty(false)
-    } catch (err) {
-      setError('Erro ao carregar: ' + err.message)
-    } finally {
-      setLoading(false)
-    }
-  }, [pathSegments.join('/'), fieldName])
+  // O caminho vira string para servir de dependência estável: um array literal
+  // (['hero', 'carousel']) tem identidade nova a cada render.
+  const path = pathSegments.join('/')
+
+  // Cadeia de promessa em vez de async/await: assim todo setState acontece
+  // dentro de callback, e não no corpo síncrono de um efeito.
+  //
+  // Não há setLoading(true) aqui — `loading` já nasce true, e recarregar após
+  // salvar não deve piscar a tela de volta para "Carregando...".
+  const load = useCallback(() => {
+    return getDoc(doc(db, ...path.split('/')))
+      .then((snap) => {
+        const loaded = snap.exists() ? snap.data()[fieldName] || [] : []
+        setList({ values: loaded, keys: loaded.map(newKey) })
+        setDirty(false)
+      })
+      .catch((err) => setError('Erro ao carregar: ' + err.message))
+      .finally(() => setLoading(false))
+  }, [path, fieldName])
 
   useEffect(() => { load() }, [load])
 
@@ -99,7 +104,7 @@ export function useFirestoreArrayDoc(pathSegments, fieldName, defaultItem) {
 
     setSaving(true)
     try {
-      const ref = doc(db, ...pathSegments)
+      const ref = doc(db, ...path.split('/'))
       await setDoc(ref, { [fieldName]: items })
       setSuccessMsg('Salvo com sucesso!')
       setDirty(false)
