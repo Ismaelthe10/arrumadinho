@@ -23,7 +23,7 @@ Este projeto segue um terceiro caminho. O site público é uma SPA estática ser
 
 **Conteúdo é dado, não marcação.** Todas as seções públicas leem do Firestore. Adicionar um produto ou reordenar serviços é o envio de um formulário, não um pull request.
 
-**O admin nunca chega ao público.** A aplicação administrativa inteira está atrás de um import dinâmico no nível da rota, e cada seção dentro dela é carregada sob demanda por cima disso — 27 kB gzip que quem nunca abre `/admin` jamais baixa. O Firebase Auth foi isolado em um módulo próprio pelo mesmo motivo: as páginas públicas só precisam do Firestore, então o SDK de autenticação fica fora do bundle delas. Esse fatiamento, somado à limpeza de dependências de design tokens não usadas, deixou o bundle público um terço menor.
+**O admin nunca chega ao público.** A aplicação administrativa inteira está atrás de um import dinâmico no nível da rota, e cada seção dentro dela é carregada sob demanda por cima disso — 27 kB gzip que quem nunca abre `/admin` jamais baixa. O Firebase Auth foi isolado em um módulo próprio pelo mesmo motivo: as páginas públicas só precisam do Firestore, então o SDK de autenticação fica fora do bundle delas.
 
 **Visitas repetidas renderizam antes da rede responder.** O conteúdo público é cacheado em `localStorage` e servido como estado inicial do React, e revalidado em segundo plano — stale-while-revalidate. Antes, cada seção montava vazia e esperava uma cadeia estritamente serial: baixar e parsear o SDK do Firestore, inicializar o App Check, resolver o token do reCAPTCHA e só então consultar. Nada disso bloqueia mais o primeiro paint.
 
@@ -45,7 +45,11 @@ Medido antes e depois, sobre o build de produção:
 | Hero no carregamento, celular 390 px DPR 2 | 316,9 kB | 130,3 kB | **-59%** |
 | Hero no carregamento, celular 390 px DPR 1 | 316,9 kB | 67,8 kB | **-79%** |
 | Navegação interna para `/cursos` | 244,5 kB | 7,2 kB | **-97%** |
+| Bundle JS público, não comprimido | 1.161 kB | 789 kB | **-32%** |
+| CSS público, não comprimido | 114 kB | 25 kB | **-78%** |
 | Latência do Firestore antes do primeiro paint, visita repetida | 397-474 ms | 0 ms | |
+
+As linhas de bundle são sem compressão; todos os outros tamanhos são gzip. Essa redução veio principalmente de descartar o `@primer/react` — importado em um único arquivo, com tokens de design que nenhum CSS do projeto usava — responsável por cerca de três quartos dela. Mover o admin e o `firebase/auth` para chunks sob demanda responde pelo quarto restante.
 
 De onde vêm os números: os tamanhos são valores gzip do build de produção e das URLs reais de entrega do Cloudinary em cada largura candidata; as latências são round-trips medidos contra o endpoint REST do Firestore. São medidas de transferência e latência, não notas de Lighthouse.
 

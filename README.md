@@ -25,7 +25,7 @@ This project takes a third path. The public site is a static SPA served from the
 
 **Content is data, not markup.** All public sections read from Firestore. Adding a product or reordering services is a form submission, not a pull request.
 
-**The admin never reaches the public.** The entire admin application sits behind a route-level dynamic import, and each section inside it is lazily loaded on top of that — 27 kB gzip that visitors who never open `/admin` never download. Firebase Auth is split into its own module for the same reason: the public pages only need Firestore, so the auth SDK stays out of their bundle entirely. That splitting, plus pruning unused design-token dependencies, cut the public bundle by a third.
+**The admin never reaches the public.** The entire admin application sits behind a route-level dynamic import, and each section inside it is lazily loaded on top of that — 27 kB gzip that visitors who never open `/admin` never download. Firebase Auth is split into its own module for the same reason: the public pages only need Firestore, so the auth SDK stays out of their bundle entirely.
 
 **Repeat visits render before the network answers.** Public content is cached in `localStorage` and served as React's initial state, then revalidated in the background — stale-while-revalidate. Previously every section mounted empty and waited on a strictly serial chain: download and parse the Firestore SDK, initialize App Check, resolve a reCAPTCHA token, and only then query. None of that blocks the first paint any more.
 
@@ -47,7 +47,11 @@ Measured before and after, on the production build:
 | Hero on load, 390 px phone at DPR 2 | 316.9 kB | 130.3 kB | **-59%** |
 | Hero on load, 390 px phone at DPR 1 | 316.9 kB | 67.8 kB | **-79%** |
 | Internal navigation to `/cursos` | 244.5 kB | 7.2 kB | **-97%** |
+| Public JS bundle, uncompressed | 1,161 kB | 789 kB | **-32%** |
+| Public CSS, uncompressed | 114 kB | 25 kB | **-78%** |
 | Firestore latency before first paint, repeat visit | 397-474 ms | 0 ms | |
+
+The bundle rows are uncompressed; every other size is gzip. That reduction came mostly from dropping `@primer/react` — imported in a single file, with design tokens no CSS in the project ever used — which accounts for roughly three quarters of it. Moving the admin and `firebase/auth` to on-demand chunks accounts for the remaining quarter.
 
 Where the numbers come from: transfer sizes are gzip figures from the production build and from the real Cloudinary delivery URLs at each candidate width; the latency figures are round-trips measured against the Firestore REST endpoint. They are transfer and latency measurements, not Lighthouse scores.
 
