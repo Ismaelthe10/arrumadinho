@@ -23,15 +23,37 @@ Este projeto segue um terceiro caminho. O site público é uma SPA estática ser
 
 **Conteúdo é dado, não marcação.** Todas as seções públicas leem do Firestore. Adicionar um produto ou reordenar serviços é o envio de um formulário, não um pull request.
 
-**O admin nunca chega ao público.** A aplicação administrativa inteira está atrás de um import dinâmico no nível da rota, e cada seção dentro dela é carregada sob demanda por cima disso. Quem nunca abre `/admin` não baixa um byte sequer. O Firebase Auth foi isolado em um módulo próprio pelo mesmo motivo — as páginas públicas só precisam do Firestore, então o SDK de autenticação fica fora do bundle delas.
+**O admin nunca chega ao público.** A aplicação administrativa inteira está atrás de um import dinâmico no nível da rota, e cada seção dentro dela é carregada sob demanda por cima disso — 27 kB gzip que quem nunca abre `/admin` jamais baixa. O Firebase Auth foi isolado em um módulo próprio pelo mesmo motivo: as páginas públicas só precisam do Firestore, então o SDK de autenticação fica fora do bundle delas.
 
-**Bundle público 33% menor**, resultado desse fatiamento somado à limpeza de dependências.
+**Visitas repetidas renderizam antes da rede responder.** O conteúdo público é cacheado em `localStorage` e servido como estado inicial do React, e revalidado em segundo plano — stale-while-revalidate. Antes, cada seção montava vazia e esperava uma cadeia estritamente serial: baixar e parsear o SDK do Firestore, inicializar o App Check, resolver o token do reCAPTCHA e só então consultar. Nada disso bloqueia mais o primeiro paint.
+
+**Navegar custa um chunk de rota, não um carregamento de página.** Os links do header e do footer eram âncoras simples, então cada clique interno descartava a SPA e reexecutava React, Firebase, App Check e reCAPTCHA do zero. Agora passam pelo roteador, e o chunk de cada rota é pré-carregado no hover, no foco ou no toque — normalmente ele já chegou quando o clique acontece.
+
+**Imagens dimensionadas por viewport.** Os uploads vão para o Cloudinary; as URLs de entrega carregam `f_auto,q_auto` mais um `srcset` de larguras candidatas e um `sizes` derivado das medidas reais de cada grid. Um celular de 390 px deixa de baixar a variante de 1200 px feita para desktop. A imagem de LCP é pré-carregada a partir do HTML, em vez de ser descoberta só depois que o bundle é parseado, e a segunda foto do carrossel é adiada até pouco antes de aparecer.
 
 **Dados estruturados renderizados estaticamente.** O grafo JSON-LD do tipo `BarberShop` fica direto no `index.html`, em vez de ser injetado pelo React, para que rastreadores que não executam JavaScript também leiam endereço, horários, telefone e geolocalização do negócio. As demais páginas referenciam esse nó pelo `@id` em vez de redeclarar a empresa inteira.
 
-**Imagens otimizadas na entrega.** Os uploads vão para o Cloudinary; as URLs de entrega são reescritas em tempo de execução com `f_auto,q_auto` e largura explícita, então cada viewport recebe uma imagem de tamanho adequado em formato moderno. A imagem de LCP é pré-carregada e priorizada; as demais carregam sob demanda.
-
 **Fonte única de verdade para os dados do negócio.** Nome, endereço, telefone, horários e geolocalização são definidos uma única vez em `src/config/site.js` e consumidos pela interface, pelo JSON-LD e pelos links de WhatsApp. Consistência de NAP é sinal direto de SEO local, e divergência entre site e diretórios é uma das causas mais comuns de local pack fraco.
+
+## Performance
+
+Medido antes e depois, sobre o build de produção:
+
+| | Antes | Depois | |
+|---|---|---|---|
+| Assets estáticos em `public/` | 35,8 MB | 1,1 MB | **-97%** |
+| Hero no carregamento, celular 390 px DPR 2 | 316,9 kB | 130,3 kB | **-59%** |
+| Hero no carregamento, celular 390 px DPR 1 | 316,9 kB | 67,8 kB | **-79%** |
+| Navegação interna para `/cursos` | 244,5 kB | 7,2 kB | **-97%** |
+| Bundle JS público, não comprimido | 1.161 kB | 789 kB | **-32%** |
+| CSS público, não comprimido | 114 kB | 25 kB | **-78%** |
+| Latência do Firestore antes do primeiro paint, visita repetida | 397-474 ms | 0 ms | |
+
+As linhas de bundle são sem compressão; todos os outros tamanhos são gzip. Essa redução veio principalmente de descartar o `@primer/react` — importado em um único arquivo, com tokens de design que nenhum CSS do projeto usava — responsável por cerca de três quartos dela. Mover o admin e o `firebase/auth` para chunks sob demanda responde pelo quarto restante.
+
+De onde vêm os números: os tamanhos são valores gzip do build de produção e das URLs reais de entrega do Cloudinary em cada largura candidata; as latências são round-trips medidos contra o endpoint REST do Firestore. São medidas de transferência e latência, não notas de Lighthouse.
+
+Dois deles merecem contexto. A redução em `public/` foi peso morto, não compressão — 31 arquivos de imagem remanescentes da fase anterior ao Cloudinary, ainda publicados a cada build porque nada os havia removido. E o número de navegação descreve cache frio: com cache quente os assets grandes já estavam locais, mas continuavam sendo parseados e executados a cada clique interno, que é o custo que de fato pesa num celular intermediário.
 
 ## Stack
 
@@ -115,14 +137,15 @@ src/
 │   ├── hooks/      Edição de listas e documentos no Firestore, upload Cloudinary
 │   ├── components/ Layout, navegação, campo de upload de imagem
 │   └── context/    Estado de autenticação
-├── infra/          Inicialização do Firebase (Firestore e Auth separados)
+├── hooks/          Cache stale-while-revalidate do conteúdo público
+├── routes/         Importadores das rotas lazy, compartilhados com o prefetch
+├── infra/          Inicialização do Firebase e os fetchers de conteúdo público
 ├── config/         Dados do negócio — fonte única de verdade
 ├── content/        Textos estáticos (FAQ)
-├── utils/          Transformação de URLs do Cloudinary
+├── utils/          URLs e srcset do Cloudinary, cache em localStorage
 └── styles/         Tokens de tema
 
 public/             Assets estáticos, favicons, sitemap, robots.txt
-docs/               Notas operacionais (checklist de SEO local)
 ```
 
 ## Modelo de conteúdo

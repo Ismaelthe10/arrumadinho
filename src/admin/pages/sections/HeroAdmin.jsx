@@ -5,7 +5,7 @@ import styles from './HeroAdmin.module.css'
 
 export default function HeroAdmin() {
   const {
-    items: images, loading, saving, error, successMsg,
+    items: images, keys, loading, saving, error, successMsg,
     updateField, add, remove, move, save,
   } = useFirestoreArrayDoc(['hero', 'carousel'], 'images', () => ({ src: '', alt: 'ambiente barbearia arrumadinho' }))
 
@@ -14,7 +14,7 @@ export default function HeroAdmin() {
   }
 
   function handleRemove(index) {
-    if (window.confirm('A ação irá remover a imagem do carrossel imediatamente. Deseja continuar?')) {
+    if (window.confirm('Remover esta imagem do carrossel? A remoção só vale depois de clicar em "Salvar alterações".')) {
       remove(index)
     }
   }
@@ -34,7 +34,7 @@ export default function HeroAdmin() {
       ) : (
         <div className={styles.list}>
           {images.map((img, index) => (
-            <div key={index} className={styles.item}>
+            <div key={keys[index]} className={styles.item}>
               <div className={styles.itemHeader}>
                 <span className={index === 0 ? styles.itemBadgeFirst : styles.itemBadge}>
                   Imagem {index + 1}{index === 0 && ' · primeira exibida'}

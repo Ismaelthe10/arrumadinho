@@ -25,15 +25,37 @@ This project takes a third path. The public site is a static SPA served from the
 
 **Content is data, not markup.** All public sections read from Firestore. Adding a product or reordering services is a form submission, not a pull request.
 
-**The admin never reaches the public.** The entire admin application is behind a route-level dynamic import, and each section inside it is lazily loaded on top of that. Visitors who never open `/admin` never download a byte of it. Firebase Auth is split into its own module for the same reason — the public pages only need Firestore, so the auth SDK stays out of their bundle entirely.
+**The admin never reaches the public.** The entire admin application sits behind a route-level dynamic import, and each section inside it is lazily loaded on top of that — 27 kB gzip that visitors who never open `/admin` never download. Firebase Auth is split into its own module for the same reason: the public pages only need Firestore, so the auth SDK stays out of their bundle entirely.
 
-**Public bundle reduced by 33%** through that splitting plus dependency pruning.
+**Repeat visits render before the network answers.** Public content is cached in `localStorage` and served as React's initial state, then revalidated in the background — stale-while-revalidate. Previously every section mounted empty and waited on a strictly serial chain: download and parse the Firestore SDK, initialize App Check, resolve a reCAPTCHA token, and only then query. None of that blocks the first paint any more.
+
+**Navigation costs a route chunk, not a page load.** Header and footer links were plain anchors, so every internal click discarded the SPA and re-executed React, Firebase, App Check and reCAPTCHA from scratch. They now go through the router, and each route chunk is prefetched on hover, focus or touch — so the chunk has usually arrived before the click does.
+
+**Images are sized per viewport.** Uploads go to Cloudinary; delivery URLs carry `f_auto,q_auto` plus a `srcset` of candidate widths and a `sizes` expression derived from each grid's real measurements. A 390 px phone stops downloading the 1200 px variant built for desktop. The LCP image is preloaded from the HTML rather than discovered after the bundle parses, and the carousel's second photo is deferred until shortly before it is shown.
 
 **Structured data rendered statically.** The `BarberShop` JSON-LD graph lives directly in `index.html` rather than being injected by React, so crawlers that don't execute JavaScript still read the business's address, hours, phone, and geolocation. Other pages reference that node by `@id` instead of redeclaring the business.
 
-**Images optimized at delivery.** Uploads go to Cloudinary; delivery URLs are rewritten on the fly with `f_auto,q_auto` and an explicit width, so each viewport gets an appropriately sized image in a modern format. The LCP image is preloaded and prioritized; the rest lazy-load.
-
 **A single source of truth for business data.** Name, address, phone, hours, and geolocation are defined once in `src/config/site.js` and consumed by the UI, the JSON-LD, and the WhatsApp deep links. NAP consistency is a direct local-SEO signal, and divergence between site and directory listings is one of the most common causes of a weak local pack.
+
+## Performance
+
+Measured before and after, on the production build:
+
+| | Before | After | |
+|---|---|---|---|
+| Static assets in `public/` | 35.8 MB | 1.1 MB | **-97%** |
+| Hero on load, 390 px phone at DPR 2 | 316.9 kB | 130.3 kB | **-59%** |
+| Hero on load, 390 px phone at DPR 1 | 316.9 kB | 67.8 kB | **-79%** |
+| Internal navigation to `/cursos` | 244.5 kB | 7.2 kB | **-97%** |
+| Public JS bundle, uncompressed | 1,161 kB | 789 kB | **-32%** |
+| Public CSS, uncompressed | 114 kB | 25 kB | **-78%** |
+| Firestore latency before first paint, repeat visit | 397-474 ms | 0 ms | |
+
+The bundle rows are uncompressed; every other size is gzip. That reduction came mostly from dropping `@primer/react` — imported in a single file, with design tokens no CSS in the project ever used — which accounts for roughly three quarters of it. Moving the admin and `firebase/auth` to on-demand chunks accounts for the remaining quarter.
+
+Where the numbers come from: transfer sizes are gzip figures from the production build and from the real Cloudinary delivery URLs at each candidate width; the latency figures are round-trips measured against the Firestore REST endpoint. They are transfer and latency measurements, not Lighthouse scores.
+
+Two of them deserve their context. The `public/` reduction was dead weight, not compression — 31 image files left over from before the migration to Cloudinary, still deployed on every build because nothing had removed them. And the navigation figure describes a cold cache: with a warm one the large assets were already local, but they were still parsed and executed on every single internal click, which is the cost that actually hurts on a mid-range phone.
 
 ## Tech stack
 
@@ -117,14 +139,15 @@ src/
 │   ├── hooks/      Firestore list/array-document editing, Cloudinary upload
 │   ├── components/ Layout, navigation, image upload field
 │   └── context/    Auth state
-├── infra/          Firebase initialization (Firestore and Auth kept separate)
+├── hooks/          Stale-while-revalidate cache for public content
+├── routes/         Lazy-route importers, shared with the prefetch-on-intent
+├── infra/          Firebase initialization and the public-content fetchers
 ├── config/         Business data — single source of truth
 ├── content/        Static copy (FAQ)
-├── utils/          Cloudinary URL transformation
+├── utils/          Cloudinary URL and srcset builders, localStorage cache
 └── styles/         Theme tokens
 
 public/             Static assets, favicons, sitemap, robots.txt
-docs/               Operational notes (local SEO checklist)
 ```
 
 ## Content model

@@ -5,7 +5,7 @@ import styles from './SpaceAdmin.module.css'
 
 export default function SpaceAdmin() {
   const {
-    items: photos, loading, saving, error, successMsg,
+    items: photos, keys, loading, saving, error, successMsg,
     setItem, add, remove, move, save,
   } = useFirestoreArrayDoc(['space', 'gallery'], 'photos', '')
 
@@ -14,7 +14,7 @@ export default function SpaceAdmin() {
   }
 
   function handleRemove(index) {
-    if (window.confirm('A ação irá remover a foto imediatamente. Deseja continuar?')) {
+    if (window.confirm('Remover esta foto? A remoção só vale depois de clicar em "Salvar alterações".')) {
       remove(index)
     }
   }
@@ -34,7 +34,7 @@ export default function SpaceAdmin() {
       ) : (
         <div className={styles.list}>
           {photos.map((photo, index) => (
-            <div key={index} className={styles.item}>
+            <div key={keys[index]} className={styles.item}>
               <div className={styles.itemHeader}>
                 <span className={styles.itemBadge}>Foto {index + 1}</span>
 

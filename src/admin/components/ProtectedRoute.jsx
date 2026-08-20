@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../infra/firebaseAuth.js'
-import { useAuth } from '../context/AuthContext.jsx'
+import { useAuth } from '../context/useAuth.js'
 import { AUTHORIZED_UIDS } from '../config/authorizedUsers.js'
 
 export default function ProtectedRoute({ children }) {

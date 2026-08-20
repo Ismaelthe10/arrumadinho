@@ -1,0 +1,47 @@
+.box {
+  background: #FDECEC;
+  color: #B42318;
+  padding: 20px 22px;
+  border-radius: 8px;
+  max-width: 640px;
+}
+
+.title {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.text {
+  margin: 0 0 10px;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.retry {
+  margin-top: 4px;
+  background: transparent;
+  color: #B42318;
+  border: 1px solid currentColor;
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.retry:hover {
+  background: rgba(180, 35, 24, 0.08);
+}
+
+.details {
+  margin-top: 16px;
+  font-size: 0.85rem;
+}
+
+.pre {
+  margin: 8px 0 0;
+  padding: 10px;
+  background: rgba(180, 35, 24, 0.08);
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

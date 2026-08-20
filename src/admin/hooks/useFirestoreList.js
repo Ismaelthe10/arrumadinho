@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useId, useState } from 'react'
 import {
   collection, getDocs, doc, setDoc, deleteDoc, query, orderBy,
 } from 'firebase/firestore'
 import { db } from '../../infra/firebase'
+import { useUnsavedChanges } from '../context/useUnsavedChanges'
 
 export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {}) {
   const [items, setItems] = useState([])
@@ -12,32 +13,32 @@ export function useFirestoreList(collectionName, makeEmptyItem, { maxItems } = {
   const [successMsg, setSuccessMsg] = useState(null)
   const [dirty, setDirty] = useState(false)
 
-  const load = useCallback(async () => {
-    setLoading(true)
-    try {
-      const q = query(collection(db, collectionName), orderBy('order'))
-      const snap = await getDocs(q)
-      setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
-      setDirty(false)
-    } catch (err) {
-      setError('Erro ao carregar: ' + err.message)
-    } finally {
-      setLoading(false)
-    }
+  // Cadeia de promessa em vez de async/await: assim todo setState acontece
+  // dentro de callback, e não no corpo síncrono de um efeito.
+  //
+  // Não há setLoading(true) aqui — `loading` já nasce true, e o reload após
+  // saveOne não deve trocar a lista inteira por "Carregando...".
+  const load = useCallback(() => {
+    return getDocs(query(collection(db, collectionName), orderBy('order')))
+      .then((snap) => {
+        setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
+        setDirty(false)
+      })
+      .catch((err) => setError('Erro ao carregar: ' + err.message))
+      .finally(() => setLoading(false))
   }, [collectionName])
 
   useEffect(() => { load() }, [load])
 
-  // Avisa o usuário se tentar fechar/recarregar a aba com alterações não salvas
+  // Publica o estado sujo no provider, que centraliza o aviso de saída — tanto
+  // ao fechar a aba quanto ao trocar de seção pela sidebar.
+  const dirtyId = useId()
+  const { setDirtySource } = useUnsavedChanges()
+
   useEffect(() => {
-    if (!dirty) return
-    function handleBeforeUnload(e) {
-      e.preventDefault()
-      e.returnValue = ''
-    }
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
-  }, [dirty])
+    setDirtySource(dirtyId, dirty)
+    return () => setDirtySource(dirtyId, false)
+  }, [dirtyId, dirty, setDirtySource])
 
   function updateField(index, field, value) {
     setItems((prev) => prev.map((it, i) => (i === index ? { ...it, [field]: value } : it)))

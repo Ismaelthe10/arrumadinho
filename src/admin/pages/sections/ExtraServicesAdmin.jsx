@@ -4,7 +4,7 @@ import styles from './ServicesAdmin.module.css'
 
 export default function ExtraServicesAdmin() {
   const {
-    items: extraServices, loading, saving, error, successMsg,
+    items: extraServices, keys, loading, saving, error, successMsg,
     setItem, add, remove, save,
   } = useFirestoreArrayDoc(['services', 'extra'], 'extraServices', '')
 
@@ -13,7 +13,7 @@ export default function ExtraServicesAdmin() {
   }
 
   function handleRemove(index) {
-    if (window.confirm('A ação irá remover o item da lista imediatamente. Deseja continuar?')) {
+    if (window.confirm('Remover este item da lista? A remoção só vale depois de clicar em "Salvar alterações".')) {
       remove(index)
     }
   }
@@ -32,7 +32,7 @@ export default function ExtraServicesAdmin() {
       ) : (
         <div className={styles.extraList}>
           {extraServices.map((item, index) => (
-            <div key={index} className={styles.extraItem}>
+            <div key={keys[index]} className={styles.extraItem}>
               <input type="text" value={item} onChange={(e) => setItem(index, e.target.value)} className={styles.input} placeholder="Ex: Sobrancelha" />
               <button type="button" onClick={() => handleRemove(index)} className={styles.iconButtonDanger} aria-label="Remover item" title="Remover item">
                 <TrashIcon size={16} />
