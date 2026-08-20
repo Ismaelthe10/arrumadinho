@@ -124,7 +124,6 @@ src/
 └── styles/         Theme tokens
 
 public/             Static assets, favicons, sitemap, robots.txt
-docs/               Operational notes (local SEO checklist)
 ```
 
 ## Content model
