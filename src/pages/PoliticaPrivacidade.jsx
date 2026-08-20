@@ -1,14 +1,11 @@
 import Seo from '../components/Seo'
+import { ROUTE_META } from '../config/routeMeta'
 import styles from './LegalPage.module.css'
 
 export default function PoliticaPrivacidade() {
   return (
     <section className="section-dark">
-      <Seo
-        title="Política de Privacidade | Barbearia Arrumadinho"
-        description="Como a Barbearia Arrumadinho coleta, utiliza e protege os dados pessoais dos visitantes deste site, conforme a LGPD."
-        path="/politica-de-privacidade"
-      />
+      <Seo {...ROUTE_META.privacy} />
       <div className={styles.container}>
         <h1 className={styles.title}>Política de Privacidade</h1>
         <p className={styles.updated}>Última atualização: agosto de 2026</p>

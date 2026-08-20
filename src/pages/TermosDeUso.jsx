@@ -1,14 +1,11 @@
 import Seo from '../components/Seo'
+import { ROUTE_META } from '../config/routeMeta'
 import styles from './LegalPage.module.css'
 
 export default function TermosDeUso() {
   return (
     <section className="section-dark">
-      <Seo
-        title="Termos de Uso | Barbearia Arrumadinho"
-        description="Termos e condições de uso do site da Barbearia Arrumadinho, barbearia e escola de barbeiros em Colombo/PR."
-        path="/termos-de-uso"
-      />
+      <Seo {...ROUTE_META.terms} />
       <div className={styles.container}>
         <h1 className={styles.title}>Termos de Uso</h1>
         <p className={styles.updated}>Última atualização: julho de 2026</p>
