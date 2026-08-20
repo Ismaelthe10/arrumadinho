@@ -60,10 +60,12 @@ export default function PoliticaPrivacidade() {
               automatizados e uso indevido do site;
             </li>
             <li>
-              <strong>Vercel</strong> — hospedagem e entrega do site, e
-              medição anônima de audiência (quantas visitas cada página
-              recebe). Essa medição não utiliza cookies, não identifica você
-              e não acompanha sua navegação em outros sites.
+              <strong>Vercel</strong> — hospedagem e entrega do site, medição
+              anônima de audiência (quantas visitas cada página recebe) e
+              medição de desempenho (quanto tempo as páginas levam para
+              carregar no seu aparelho). Essas medições não utilizam cookies,
+              não identificam você e não acompanham sua navegação em outros
+              sites.
             </li>
           </ul>
           <p>
